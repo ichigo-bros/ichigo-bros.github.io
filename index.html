@@ -722,7 +722,7 @@
    連携方法: Beholdで無料アカウントを作成しInstagramを接続 → 発行されたJSONフィードの
    URLを下の BEHOLD_FEED_URL に貼り付けてください。未設定の間は手動サムネイルを表示します。 */
 (function () {
-  var BEHOLD_FEED_URL = '';
+  var BEHOLD_FEED_URL = 'https://feeds.behold.so/QarVyzzlJm2PSsWcTt8V';
   if (!BEHOLD_FEED_URL) return;
   fetch(BEHOLD_FEED_URL)
     .then(function (r) { return r.json(); })
