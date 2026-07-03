@@ -185,6 +185,32 @@
   .btn-line { border: 2px solid var(--red); color: var(--red); background: #fff; }
   .btn-line:hover { background: var(--pink); }
 
+  /* ===== 注文フォーム ===== */
+  .order-form {
+    max-width: 880px; margin: 44px auto 0; background: #fff;
+    border: 1px solid var(--line); border-radius: 16px; padding: 36px 32px;
+  }
+  .order-form h3 { font-family: 'Zen Maru Gothic'; color: var(--red-dark); font-size: 20px; text-align: center; }
+  .order-form .of-lead { text-align: center; font-size: 14px; color: var(--ink-light); margin: 8px 0 20px; }
+  .of-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 32px; }
+  .of-group h5 { font-size: 14px; color: var(--red-dark); margin: 18px 0 4px; }
+  .of-group:first-child h5 { margin-top: 0; }
+  .of-row { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px dashed var(--line); font-size: 13.5px; }
+  .of-row label { flex: 1; }
+  .of-row .of-price { color: var(--ink-light); white-space: nowrap; }
+  .of-row input[type="number"] { width: 60px; padding: 6px 4px; border: 1px solid var(--line); border-radius: 8px; font-size: 15px; text-align: center; font-family: inherit; }
+  .of-fields label { display: block; font-size: 13.5px; font-weight: 700; color: var(--red-dark); margin: 13px 0 4px; }
+  .of-fields label:first-child { margin-top: 0; }
+  .of-fields input, .of-fields select, .of-fields textarea {
+    width: 100%; padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px;
+    font-size: 14.5px; font-family: inherit; background: var(--cream); box-sizing: border-box;
+  }
+  .of-total { text-align: center; font-size: 15px; margin: 26px 0 4px; }
+  .of-total strong { font-size: 24px; color: var(--red); font-family: 'Zen Maru Gothic'; margin-left: 8px; }
+  .of-total span { display: block; font-size: 12.5px; color: var(--ink-light); margin-top: 6px; }
+  .of-btns { display: flex; gap: 14px; justify-content: center; margin-top: 18px; flex-wrap: wrap; }
+  .of-note { text-align: center; font-size: 12.5px; color: var(--ink-light); margin-top: 12px; }
+
   /* ===== 営業案内 ===== */
   .info { background: #fff; }
   .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
@@ -226,6 +252,8 @@
     .about-grid, .pack-grid, .info-grid { grid-template-columns: 1fr; }
     .variety-grid { grid-template-columns: repeat(2, 1fr); }
     .feature-row, .steps { grid-template-columns: 1fr; }
+    .of-grid { grid-template-columns: 1fr; }
+    .order-form { padding: 28px 20px; }
     nav a:not(.cta) { display: none; }
   }
 </style>
@@ -389,7 +417,7 @@
   <div class="inner">
     <div class="sec-label">HOW TO ORDER</div>
     <h2 class="sec-title">ご購入までの流れ（配送）</h2>
-    <p class="sec-lead">InstagramのDMまたはメールでお気軽にご注文ください。</p>
+    <p class="sec-lead">下の「かんたん注文フォーム」で注文メッセージを作成して、InstagramのDMまたはメールでお気軽にご注文ください。</p>
     <div class="steps">
       <div class="step">
         <h4>ご希望内容をご連絡</h4>
@@ -404,6 +432,57 @@
         <p>朝摘みの完熟いちごを丁寧に梱包し、ヤマト運輸のクール便でお届けします。ご入金確認後（または注文確定後）3営業日以内に発送いたします。</p>
       </div>
     </div>
+
+    <div class="order-form" id="order">
+      <h3>📝 かんたん注文フォーム</h3>
+      <p class="of-lead">数量とお届け先を入力すると、注文メッセージを自動で作成します。<br>そのままメールで送るか、コピーしてInstagramのDMに貼り付けてください。</p>
+      <div class="of-grid">
+        <div class="of-products">
+          <div class="of-group">
+            <h5>レギュラーパック（10〜15粒・270g以上）</h5>
+            <div class="of-row"><label>とちおとめ／とちあいか／スカイベリー</label><span class="of-price">各600円</span><input type="number" min="0" max="30" value="0" data-name="レギュラーパック（とちおとめ/とちあいか/スカイベリー）" data-price="600"></div>
+            <div class="of-row"><label>ミルキーベリー</label><span class="of-price">1,000円</span><input type="number" min="0" max="30" value="0" data-name="レギュラーパック（ミルキーベリー）" data-price="1000"></div>
+            <div class="of-row"><label>お好みの品種＋ミルキー</label><span class="of-price">800円</span><input type="number" min="0" max="30" value="0" data-name="レギュラーパック（お好みの品種＋ミルキー）" data-price="800"></div>
+          </div>
+          <div class="of-group">
+            <h5>SPパック（大粒1段並べ・300g以上）</h5>
+            <div class="of-row"><label>とちおとめ／とちあいか／スカイベリー</label><span class="of-price">各750円</span><input type="number" min="0" max="30" value="0" data-name="SPパック（とちおとめ/とちあいか/スカイベリー）" data-price="750"></div>
+            <div class="of-row"><label>ミルキーベリー</label><span class="of-price">1,300円</span><input type="number" min="0" max="30" value="0" data-name="SPパック（ミルキーベリー）" data-price="1300"></div>
+            <div class="of-row"><label>お好みの品種＋ミルキー</label><span class="of-price">1,050円</span><input type="number" min="0" max="30" value="0" data-name="SPパック（お好みの品種＋ミルキー）" data-price="1050"></div>
+          </div>
+          <div class="of-group">
+            <h5>DXパック（2パック詰め・各12〜15粒）</h5>
+            <div class="of-row"><label>とちおとめ／とちあいか／スカイベリー／ミックス</label><span class="of-price">各1,600円</span><input type="number" min="0" max="30" value="0" data-name="DXパック（とちおとめ/とちあいか/スカイベリー/ミックス）" data-price="1600"></div>
+            <div class="of-row"><label>ミックス＋ミルキー</label><span class="of-price">2,100円</span><input type="number" min="0" max="30" value="0" data-name="DXパック（ミックス＋ミルキー）" data-price="2100"></div>
+            <div class="of-row"><label>ミルキーベリー</label><span class="of-price">3,000円</span><input type="number" min="0" max="30" value="0" data-name="DXパック（ミルキーベリー）" data-price="3000"></div>
+          </div>
+        </div>
+        <div class="of-fields">
+          <label for="of-name">お名前</label>
+          <input id="of-name" type="text" placeholder="例：いちご太郎" autocomplete="name">
+          <label for="of-tel">お電話番号</label>
+          <input id="of-tel" type="tel" placeholder="例：090-1234-5678" autocomplete="tel">
+          <label for="of-addr">発送先ご住所</label>
+          <input id="of-addr" type="text" placeholder="例：栃木県小山市○○ 1-2-3">
+          <label for="of-date">ご希望の配送日時</label>
+          <input id="of-date" type="text" placeholder="例：12月20日 午前中">
+          <label for="of-pay">お支払い方法</label>
+          <select id="of-pay">
+            <option>銀行振込（楽天銀行）</option>
+            <option>着払い（現金・クレジットカード・電子マネー）</option>
+          </select>
+          <label for="of-memo">品種のご希望・備考</label>
+          <textarea id="of-memo" rows="3" placeholder="例：とちあいか2・とちおとめ1／紅白詰め希望 など"></textarea>
+        </div>
+      </div>
+      <div class="of-total">商品合計（税込）<strong id="of-total">0円</strong><span>※送料（クール便・資材代込み）は別途かかります。確定金額は注文確認のご連絡でお知らせします。</span></div>
+      <div class="of-btns">
+        <a class="btn btn-red" id="of-mail" href="mailto:ichigo.brothers@gmail.com">✉️ メールで注文する</a>
+        <a class="btn btn-line" id="of-copy" href="#order">📋 コピーしてInstagram DMへ</a>
+      </div>
+      <p class="of-note">「コピーして…」を押すと注文メッセージがコピーされ、Instagramが開きます。DMに貼り付けて送信してください。</p>
+    </div>
+
     <div class="contact-btns">
       <a class="btn btn-red" href="https://www.instagram.com/ichigo_brothers/">📷 InstagramでDMする</a>
       <a class="btn btn-line" href="mailto:ichigo.brothers@gmail.com">✉️ メールで注文する</a>
@@ -469,6 +548,55 @@
   </div>
   <p style="margin-top:24px; font-size:11.5px;">© いちご兄弟農園</p>
 </footer>
+
+<script>
+(function () {
+  var qtyInputs = document.querySelectorAll('.of-products input[type="number"]');
+  function yen(n) { return n.toLocaleString('ja-JP') + '円'; }
+  function val(id) { return document.getElementById(id).value.trim(); }
+  function build() {
+    var lines = [], total = 0;
+    qtyInputs.forEach(function (i) {
+      var q = parseInt(i.value, 10) || 0;
+      if (q > 0) {
+        lines.push('・' + i.dataset.name + ' × ' + q);
+        total += q * parseInt(i.dataset.price, 10);
+      }
+    });
+    document.getElementById('of-total').textContent = yen(total);
+    var msg = 'いちご兄弟農園 ご注文希望\n\n【ご注文内容】\n';
+    msg += lines.length ? lines.join('\n') : '（未選択）';
+    msg += '\n商品合計：' + yen(total) + '（税込・送料別）\n';
+    msg += '\n【お名前】' + val('of-name');
+    msg += '\n【お電話番号】' + val('of-tel');
+    msg += '\n【発送先ご住所】' + val('of-addr');
+    msg += '\n【ご希望の配送日時】' + val('of-date');
+    msg += '\n【お支払い方法】' + document.getElementById('of-pay').value;
+    if (val('of-memo')) msg += '\n【品種のご希望・備考】' + val('of-memo');
+    return msg;
+  }
+  function refresh() {
+    document.getElementById('of-mail').href =
+      'mailto:ichigo.brothers@gmail.com?subject=' +
+      encodeURIComponent('いちごのご注文（' + (val('of-name') || 'お名前未入力') + '）') +
+      '&body=' + encodeURIComponent(build());
+  }
+  document.querySelectorAll('.order-form input, .order-form select, .order-form textarea')
+    .forEach(function (el) { el.addEventListener('input', refresh); });
+  document.getElementById('of-copy').addEventListener('click', function (e) {
+    e.preventDefault();
+    var msg = build();
+    function done() {
+      alert('注文メッセージをコピーしました。開いたInstagramのDMに貼り付けて送信してください。');
+      window.open('https://www.instagram.com/ichigo_brothers/', '_blank');
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(msg).then(done, done);
+    } else { done(); }
+  });
+  refresh();
+})();
+</script>
 
 </body>
 </html>
