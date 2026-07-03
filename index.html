@@ -222,6 +222,19 @@
   }
   .of-same input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--red); }
 
+  /* ===== Instagram ===== */
+  .insta { background: var(--pink); }
+  .insta-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; }
+  .insta-grid a {
+    display: block; position: relative; border-radius: 12px; overflow: hidden;
+    aspect-ratio: 1 / 1; background: #eee;
+  }
+  .insta-grid img {
+    width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .3s;
+  }
+  .insta-grid a:hover img { transform: scale(1.06); }
+  .insta-cta { text-align: center; margin-top: 28px; }
+
   /* ===== 営業案内 ===== */
   .info { background: #fff; }
   .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
@@ -264,6 +277,7 @@
     .variety-grid { grid-template-columns: repeat(2, 1fr); }
     .feature-row, .steps { grid-template-columns: 1fr; }
     .of-grid { grid-template-columns: 1fr; }
+    .insta-grid { grid-template-columns: repeat(3, 1fr); }
     .order-form { padding: 28px 20px; }
     nav a:not(.cta) { display: none; }
   }
@@ -547,6 +561,25 @@
   </div>
 </section>
 
+<section class="insta" id="insta">
+  <div class="inner">
+    <div class="sec-label">INSTAGRAM</div>
+    <h2 class="sec-title">いちご兄弟の日々</h2>
+    <p class="sec-lead">栽培のようすや直売所の最新情報は、Instagramで発信しています。</p>
+    <div class="insta-grid" id="insta-grid">
+      <a href="https://www.instagram.com/ichigo_brothers/" target="_blank" rel="noopener"><img src="images/hero.jpg" alt="いちご兄弟農園のハウスにて" loading="lazy"></a>
+      <a href="https://www.instagram.com/ichigo_brothers/" target="_blank" rel="noopener"><img src="images/pack-dx.jpg" alt="DXパックのいちご" loading="lazy"></a>
+      <a href="https://www.instagram.com/ichigo_brothers/" target="_blank" rel="noopener"><img src="images/pack-regular.jpeg" alt="レギュラーパックのいちご" loading="lazy"></a>
+      <a href="https://www.instagram.com/ichigo_brothers/" target="_blank" rel="noopener"><img src="images/pack-sp.jpeg" alt="SPパックの大粒いちご" loading="lazy"></a>
+      <a href="https://www.instagram.com/ichigo_brothers/" target="_blank" rel="noopener"><img src="images/rainbow.jpeg" alt="農園にかかる虹" loading="lazy"></a>
+      <a href="https://www.instagram.com/ichigo_brothers/" target="_blank" rel="noopener"><img src="images/pack-otoku.jpg" alt="お徳用パックのいちご" loading="lazy"></a>
+    </div>
+    <div class="insta-cta">
+      <a class="btn btn-red" href="https://www.instagram.com/ichigo_brothers/" target="_blank" rel="noopener">📷 @ichigo_brothers をフォロー</a>
+    </div>
+  </div>
+</section>
+
 <section class="info" id="info">
   <div class="inner">
     <div class="sec-label">INFORMATION</div>
@@ -682,6 +715,38 @@
     } else { done(); }
   });
   refresh();
+})();
+
+/* ===== Instagramフィード =====
+   Behold（https://behold.so）と連携すると、最新の投稿が自動でサムネイル表示されます。
+   連携方法: Beholdで無料アカウントを作成しInstagramを接続 → 発行されたJSONフィードの
+   URLを下の BEHOLD_FEED_URL に貼り付けてください。未設定の間は手動サムネイルを表示します。 */
+(function () {
+  var BEHOLD_FEED_URL = '';
+  if (!BEHOLD_FEED_URL) return;
+  fetch(BEHOLD_FEED_URL)
+    .then(function (r) { return r.json(); })
+    .then(function (data) {
+      var posts = Array.isArray(data) ? data : (data.posts || []);
+      if (!posts.length) return;
+      var grid = document.getElementById('insta-grid');
+      grid.innerHTML = '';
+      posts.slice(0, 6).forEach(function (p) {
+        var src = p.thumbnailUrl || (p.sizes && p.sizes.medium && p.sizes.medium.mediaUrl) || p.mediaUrl;
+        if (!src) return;
+        var a = document.createElement('a');
+        a.href = p.permalink || 'https://www.instagram.com/ichigo_brothers/';
+        a.target = '_blank';
+        a.rel = 'noopener';
+        var img = document.createElement('img');
+        img.src = src;
+        img.alt = 'いちご兄弟農園のInstagram投稿';
+        img.loading = 'lazy';
+        a.appendChild(img);
+        grid.appendChild(a);
+      });
+    })
+    .catch(function () { /* 取得に失敗した場合は手動サムネイルのまま表示 */ });
 })();
 </script>
 
