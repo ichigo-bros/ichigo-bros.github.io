@@ -210,6 +210,17 @@
   .of-total span { display: block; font-size: 12.5px; color: var(--ink-light); margin-top: 6px; }
   .of-btns { display: flex; gap: 14px; justify-content: center; margin-top: 18px; flex-wrap: wrap; }
   .of-note { text-align: center; font-size: 12.5px; color: var(--ink-light); margin-top: 12px; }
+  .of-sub {
+    font-family: 'Zen Maru Gothic'; font-size: 15px; color: var(--red-dark);
+    margin: 22px 0 2px; padding-bottom: 5px; border-bottom: 2px solid var(--pink);
+  }
+  .of-fields .of-sub:first-child { margin-top: 0; }
+  .of-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .of-fields label.of-same {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 14px; font-weight: 500; color: var(--ink); margin: 12px 0 4px;
+  }
+  .of-same input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--red); }
 
   /* ===== 営業案内 ===== */
   .info { background: #fff; }
@@ -458,14 +469,59 @@
           </div>
         </div>
         <div class="of-fields">
-          <label for="of-name">お名前</label>
-          <input id="of-name" type="text" placeholder="例：いちご太郎" autocomplete="name">
-          <label for="of-tel">お電話番号</label>
-          <input id="of-tel" type="tel" placeholder="例：090-1234-5678" autocomplete="tel">
-          <label for="of-addr">発送先ご住所</label>
-          <input id="of-addr" type="text" placeholder="例：栃木県小山市○○ 1-2-3">
-          <label for="of-date">ご希望の配送日時</label>
-          <input id="of-date" type="text" placeholder="例：12月20日 午前中">
+          <h5 class="of-sub">📦 お届け先</h5>
+          <label for="of-rname">お名前</label>
+          <input id="of-rname" type="text" placeholder="例：いちご花子">
+          <div class="of-pair">
+            <div>
+              <label for="of-rtel">お電話番号</label>
+              <input id="of-rtel" type="tel" placeholder="例：090-1234-5678">
+            </div>
+            <div>
+              <label for="of-rzip">郵便番号</label>
+              <input id="of-rzip" type="text" placeholder="例：323-0014">
+            </div>
+          </div>
+          <label for="of-raddr">ご住所</label>
+          <input id="of-raddr" type="text" placeholder="例：栃木県小山市○○ 1-2-3">
+
+          <h5 class="of-sub">🏠 ご依頼主（送り主）</h5>
+          <label class="of-same"><input type="checkbox" id="of-same" checked> お届け先と同じ（ご自宅用）</label>
+          <div id="of-sender" style="display:none;">
+            <label for="of-sname">お名前</label>
+            <input id="of-sname" type="text" placeholder="例：いちご太郎">
+            <div class="of-pair">
+              <div>
+                <label for="of-stel">お電話番号</label>
+                <input id="of-stel" type="tel" placeholder="例：080-1234-5678">
+              </div>
+              <div>
+                <label for="of-szip">郵便番号</label>
+                <input id="of-szip" type="text" placeholder="例：320-0000">
+              </div>
+            </div>
+            <label for="of-saddr">ご住所</label>
+            <input id="of-saddr" type="text" placeholder="例：栃木県宇都宮市○○ 4-5-6">
+          </div>
+
+          <h5 class="of-sub">🚚 配送のご希望</h5>
+          <div class="of-pair">
+            <div>
+              <label for="of-date">ご希望お届け日</label>
+              <input id="of-date" type="date">
+            </div>
+            <div>
+              <label for="of-time">お届け時間帯</label>
+              <select id="of-time">
+                <option value="">指定なし</option>
+                <option value="0812">午前中</option>
+                <option value="1416">14〜16時</option>
+                <option value="1618">16〜18時</option>
+                <option value="1820">18〜20時</option>
+                <option value="1921">19〜21時</option>
+              </select>
+            </div>
+          </div>
           <label for="of-pay">お支払い方法</label>
           <select id="of-pay">
             <option>銀行振込（楽天銀行）</option>
@@ -552,35 +608,66 @@
 <script>
 (function () {
   var qtyInputs = document.querySelectorAll('.of-products input[type="number"]');
+  var timeLabels = { '': '指定なし', '0812': '午前中', '1416': '14〜16時', '1618': '16〜18時', '1820': '18〜20時', '1921': '19〜21時' };
   function yen(n) { return n.toLocaleString('ja-JP') + '円'; }
   function val(id) { return document.getElementById(id).value.trim(); }
+  function sameSender() { return document.getElementById('of-same').checked; }
+  function sender(f) { return sameSender() ? val('of-r' + f) : val('of-s' + f); }
+  function dateJp(v) { if (!v) return ''; var p = v.split('-'); return p[0] + '年' + (+p[1]) + '月' + (+p[2]) + '日'; }
+  function dateB2(v) { return v ? v.replace(/-/g, '/') : ''; }
   function build() {
-    var lines = [], total = 0;
+    var lines = [], total = 0, packs = 0;
     qtyInputs.forEach(function (i) {
       var q = parseInt(i.value, 10) || 0;
       if (q > 0) {
         lines.push('・' + i.dataset.name + ' × ' + q);
         total += q * parseInt(i.dataset.price, 10);
+        packs += q;
       }
     });
     document.getElementById('of-total').textContent = yen(total);
+    var t = document.getElementById('of-time').value;
     var msg = 'いちご兄弟農園 ご注文希望\n\n【ご注文内容】\n';
     msg += lines.length ? lines.join('\n') : '（未選択）';
     msg += '\n商品合計：' + yen(total) + '（税込・送料別）\n';
-    msg += '\n【お名前】' + val('of-name');
-    msg += '\n【お電話番号】' + val('of-tel');
-    msg += '\n【発送先ご住所】' + val('of-addr');
-    msg += '\n【ご希望の配送日時】' + val('of-date');
-    msg += '\n【お支払い方法】' + document.getElementById('of-pay').value;
-    if (val('of-memo')) msg += '\n【品種のご希望・備考】' + val('of-memo');
+    msg += '\n【お届け先】';
+    msg += '\nお名前：' + val('of-rname');
+    msg += '\nお電話番号：' + val('of-rtel');
+    msg += '\n郵便番号：' + val('of-rzip');
+    msg += '\nご住所：' + val('of-raddr');
+    msg += '\n\n【ご依頼主（送り主）】';
+    if (sameSender()) {
+      msg += '\nお届け先と同じ';
+    } else {
+      msg += '\nお名前：' + val('of-sname');
+      msg += '\nお電話番号：' + val('of-stel');
+      msg += '\n郵便番号：' + val('of-szip');
+      msg += '\nご住所：' + val('of-saddr');
+    }
+    msg += '\n\n【配送のご希望】';
+    msg += '\nお届け日：' + (dateJp(val('of-date')) || '指定なし');
+    msg += '\n時間帯：' + timeLabels[t];
+    msg += '\nお支払い方法：' + document.getElementById('of-pay').value;
+    if (val('of-memo')) msg += '\n品種のご希望・備考：' + val('of-memo');
+    var csv = [
+      dateB2(val('of-date')), t,
+      val('of-rtel'), val('of-rzip'), val('of-raddr'), val('of-rname'),
+      sender('tel'), sender('zip'), sender('addr'), sender('name'),
+      'いちご' + (packs ? ' ' + packs + 'パック' : '')
+    ].map(function (s) { return '"' + String(s).replace(/"/g, '""') + '"'; }).join(',');
+    msg += '\n\n▼店舗用・ヤマトB2取込データ（お届け日,時間帯ｺｰﾄﾞ,届け先TEL,〒,住所,氏名,依頼主TEL,〒,住所,氏名,品名）\n' + csv;
     return msg;
   }
   function refresh() {
     document.getElementById('of-mail').href =
       'mailto:ichigo.brothers@gmail.com?subject=' +
-      encodeURIComponent('いちごのご注文（' + (val('of-name') || 'お名前未入力') + '）') +
+      encodeURIComponent('いちごのご注文（' + (sender('name') || 'お名前未入力') + '）') +
       '&body=' + encodeURIComponent(build());
   }
+  document.getElementById('of-same').addEventListener('change', function () {
+    document.getElementById('of-sender').style.display = this.checked ? 'none' : 'block';
+    refresh();
+  });
   document.querySelectorAll('.order-form input, .order-form select, .order-form textarea')
     .forEach(function (el) { el.addEventListener('input', refresh); });
   document.getElementById('of-copy').addEventListener('click', function (e) {
