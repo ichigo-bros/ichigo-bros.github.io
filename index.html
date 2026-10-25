@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>いちご兄弟農園｜栃木県小山市・朝摘み完熟いちご</title>
+<link rel="canonical" href="https://ichigo-bros.github.io/">
 <meta name="description" content="栃木県小山市で兄弟ふたりが育てる朝摘み完熟いちご。とちおとめ・とちあいか・スカイベリー・白いちごのミルキーベリーを直売・配送でお届けします。">
 <meta property="og:title" content="いちご兄弟農園｜栃木県小山市・朝摘み完熟いちご">
 <meta property="og:description" content="兄弟ふたりで育てる朝摘み完熟いちご。直売大歓迎！配送も承ります。">
@@ -19,6 +20,7 @@
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🍓</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LocalBusiness","@id":"https://ichigo-bros.github.io/#farm","name":"いちご兄弟農園","url":"https://ichigo-bros.github.io/","image":"https://ichigo-bros.github.io/images/ogp.jpg","telephone":"080-5549-3814","email":"ichigo.brothers@gmail.com","address":{"@type":"PostalAddress","addressRegion":"栃木県","addressLocality":"小山市","streetAddress":"上泉67","addressCountry":"JP"},"sameAs":["https://www.instagram.com/ichigo_brothers/"]}</script>
 <style>
   :root {
     --red: #c0392b;
@@ -94,7 +96,7 @@
   /* ===== 当農園について ===== */
   .about { background: #fff; }
   .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; }
-  .about-grid img { width: 100%; border-radius: 16px; box-shadow: 0 12px 32px rgba(120,60,40,.14); }
+  .about-grid img { height: auto; width: 100%; border-radius: 16px; box-shadow: 0 12px 32px rgba(120,60,40,.14); }
   .about-grid h3 { font-size: 22px; color: var(--red); margin-bottom: 16px; }
   .about-grid p { margin-bottom: 14px; font-size: 15.5px; }
 
@@ -281,6 +283,46 @@
     .order-form { padding: 28px 20px; }
     nav a:not(.cta) { display: none; }
   }
+
+  [hidden] { display: none !important; }
+  section, #order { scroll-margin-top: 100px; }
+  button { font: inherit; cursor: pointer; }
+  button.btn { border: 2px solid transparent; }
+  button.btn-line { border-color: var(--red); }
+  button:disabled { cursor: not-allowed; opacity: .55; }
+  a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible, summary:focus-visible { outline: 3px solid #1a6480; outline-offset: 3px; }
+  .of-group { border: 0; min-width: 0; margin-bottom: 22px; }
+  .of-group legend { color: var(--red-dark); font-size: 15px; font-weight: 700; margin-bottom: 8px; }
+  .of-row label { min-width: 0; }
+  .of-row input[type="number"] { flex: 0 0 64px; width: 64px; min-height: 44px; font-size: 16px; }
+  .of-fields input, .of-fields select, .of-fields textarea { font-size: 16px; min-width: 0; }
+  .of-pair { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .of-same { min-height: 44px; }
+  .of-same input[type="checkbox"] { flex: 0 0 22px; height: 22px; }
+  .of-grid > *, .info-grid > * { min-width: 0; }
+  .sales-notice, .gift-note { background: var(--pink); padding: 14px 16px; border-radius: 10px; margin: 16px 0; font-size: 14px; }
+  .form-errors { color: var(--red-dark); font-weight: 700; margin: 16px 0; }
+  .message-preview { margin-top: 24px; }
+  .message-preview textarea { width: 100%; min-height: 260px; font: 16px/1.7 'Noto Sans JP',sans-serif; padding: 12px; border: 1px solid var(--line); border-radius: 8px; }
+  .message-preview label { display: block; font-weight: 700; }
+  .message-preview .btn { margin: 8px 4px 0 0; }
+  .info-table, .legal table { overflow-wrap: anywhere; }
+  .flow-lead { text-align: center; margin-bottom: 20px; }
+  @media (max-width: 480px) {
+    .header-inner { padding: 12px; gap: 10px; flex-wrap: wrap; }
+    .logo { font-size: 18px; }
+    nav .cta { margin-left: 0; padding: 10px 12px; font-size: 12px; display: inline-block; }
+    .order-form { padding: 24px 14px; }
+    .of-pair { grid-template-columns: 1fr; gap: 0; }
+    .of-row { gap: 6px; font-size: 13px; }
+    .of-btns .btn { width: 100%; padding: 12px 8px; text-align: center; }
+    .info-table th, .legal th { width: auto; white-space: normal; }
+    .legal details { padding: 18px 12px; }
+    .legal th, .legal td { display: block; width: 100%; }
+    .legal th { padding-bottom: 0; border-bottom: 0; }
+    .vcard-body { padding: 16px 12px; }
+  }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; } }
 </style>
 </head>
 <body>
@@ -296,13 +338,13 @@
       <a href="#price">商品・価格</a>
       <a href="#flow">ご購入方法</a>
       <a href="#info">アクセス</a>
-      <a class="cta" href="#flow">ご注文はこちら</a>
+      <a class="cta" data-order-cta href="#flow">販売再開のご案内</a>
     </nav>
   </div>
 </header>
 
 <div class="hero">
-  <img src="images/hero.jpg" alt="いちご兄弟農園の兄弟">
+  <img src="images/hero-1440.webp" srcset="images/hero-480.webp 480w, images/hero-1440.webp 1440w" sizes="100vw" width="1920" height="1794" alt="いちご兄弟農園の兄弟" fetchpriority="high">
   <div class="hero-text">
     <h1>兄弟ふたりで育てる、<br>朝摘み完熟いちご。</h1>
     <p>栃木県小山市 ─ 水のきれいな上泉の地から、まっ赤な美味しさをお届けします</p>
@@ -314,7 +356,7 @@
     <div class="sec-label">ABOUT US</div>
     <h2 class="sec-title">当農園について</h2>
     <div class="about-grid">
-      <img src="images/rainbow.jpeg" alt="農園にかかる虹">
+      <img src="images/rainbow-960.webp" srcset="images/rainbow-480.webp 480w, images/rainbow-960.webp 960w" sizes="(max-width: 820px) calc(100vw - 40px), 520px" width="1400" height="1050" alt="農園にかかる虹" loading="lazy" decoding="async">
       <div>
         <h3>小さな農園だから、隅々まで行き届く。</h3>
         <p>栃木県小山市で、兄弟ふたりでいちごを育てています。ここ上泉は水が豊富な、お米の一等地。水が大好きないちごにとって最高の土地です。</p>
@@ -391,47 +433,31 @@
     <p class="sec-lead">表示価格はすべて税込です。直売大歓迎！配送も承ります。<br>ご希望があれば紅白で詰めることもできます。</p>
     <div class="pack-grid">
       <div class="pack best">
-        <div class="pack-img"><img src="images/pack-regular.jpeg" alt="レギュラーパック"></div>
+        <div class="pack-img"><img src="images/pack-regular-960.webp" srcset="images/pack-regular-480.webp 480w, images/pack-regular-960.webp 960w" sizes="(max-width: 820px) calc(100vw - 40px), 520px" width="1000" height="750" alt="レギュラーパック" loading="lazy" decoding="async"></div>
         <h3>レギュラーパック</h3>
         <p class="desc">上下2段組み・1パック10〜15粒（内容量270g以上）</p>
-        <table class="price-table">
-          <tr><td>とちおとめ／とちあいか／スカイベリー</td><td class="yen">各 600円</td></tr>
-          <tr><td>ミルキーベリー</td><td class="yen">1,000円</td></tr>
-          <tr><td>お好みの品種＋ミルキー</td><td class="yen">800円</td></tr>
-        </table>
+        <table class="price-table" data-price-group="regular"><tbody><tr><td>価格を読み込み中です。表示されない場合はお問い合わせください。</td></tr></tbody></table>
         <p class="note">配送の場合：送料1,100〜2,500円（クール便・資材代込み）</p>
       </div>
       <div class="pack">
-        <div class="pack-img"><img src="images/pack-sp.jpeg" alt="SPパック"></div>
+        <div class="pack-img"><img src="images/pack-sp-960.webp" srcset="images/pack-sp-480.webp 480w, images/pack-sp-960.webp 960w" sizes="(max-width: 820px) calc(100vw - 40px), 520px" width="1000" height="750" alt="SPパック" loading="lazy" decoding="async"></div>
         <h3>SPパック</h3>
         <p class="desc">大粒いちごを重ねず1段並べ・6〜11粒（内容量300g以上）。クッション敷きで輸送にも安心。</p>
-        <table class="price-table">
-          <tr><td>とちおとめ／とちあいか／スカイベリー</td><td class="yen">各 750円</td></tr>
-          <tr><td>ミルキーベリー</td><td class="yen">1,300円</td></tr>
-          <tr><td>お好みの品種＋ミルキー</td><td class="yen">1,050円</td></tr>
-        </table>
+        <table class="price-table" data-price-group="sp"><tbody><tr><td>価格を読み込み中です。表示されない場合はお問い合わせください。</td></tr></tbody></table>
         <p class="note">配送の場合：送料1,100〜1,800円（クール便・資材代込み）</p>
       </div>
       <div class="pack">
-        <div class="pack-img"><img src="images/pack-dx.jpg" alt="DXパック"></div>
+        <div class="pack-img"><img src="images/pack-dx-800.webp" srcset="images/pack-dx-480.webp 480w, images/pack-dx-800.webp 800w" sizes="(max-width: 820px) calc(100vw - 40px), 520px" width="800" height="1000" alt="DXパック" loading="lazy" decoding="async"></div>
         <h3>DXパック（2パック詰め）</h3>
         <p class="desc">お好みの品種を2〜4種類選べる贅沢セット。1パック12〜15粒入り。</p>
-        <table class="price-table">
-          <tr><td>とちおとめ／とちあいか／スカイベリー</td><td class="yen">各 1,600円</td></tr>
-          <tr><td>各種ミックス（3種まで）</td><td class="yen">1,600円</td></tr>
-          <tr><td>ミックス＋ミルキー</td><td class="yen">2,100円</td></tr>
-          <tr><td>ミルキーベリー</td><td class="yen">3,000円</td></tr>
-        </table>
+        <table class="price-table" data-price-group="dx"><tbody><tr><td>価格を読み込み中です。表示されない場合はお問い合わせください。</td></tr></tbody></table>
         <p class="note">配送の場合：送料1,400〜2,500円（クール便・資材代込み）</p>
       </div>
       <div class="pack">
-        <div class="pack-img"><img src="images/pack-otoku.jpg" alt="お徳用パック（完熟いちごのバラ詰め）"></div>
+        <div class="pack-img"><img src="images/pack-otoku-750.webp" srcset="images/pack-otoku-480.webp 480w, images/pack-otoku-750.webp 750w" sizes="(max-width: 820px) calc(100vw - 40px), 520px" width="750" height="1000" alt="お徳用パック（完熟いちごのバラ詰め）" loading="lazy" decoding="async"></div>
         <h3>お徳用パック <span style="font-size:13px;color:var(--green)">※直売のみ</span></h3>
         <p class="desc">完熟いちごのバラ詰め。いろんな品種の食べ比べが楽しめます。完熟品のためお早めにどうぞ。</p>
-        <table class="price-table">
-          <tr><td>お徳用パック（小）</td><td class="yen">300円</td></tr>
-          <tr><td>お徳用パック（大）</td><td class="yen">1,000円</td></tr>
-        </table>
+        <table class="price-table" data-price-group="otoku"><tbody><tr><td>価格を読み込み中です。表示されない場合はお問い合わせください。</td></tr></tbody></table>
         <p class="note"><strong>農園直売所限定。</strong>中で擦れてしまうため輸送は行っておりません。複数品種のミックスもできます！</p>
       </div>
     </div>
@@ -441,8 +467,8 @@
 <section class="flow" id="flow">
   <div class="inner">
     <div class="sec-label">HOW TO ORDER</div>
-    <h2 class="sec-title">ご購入までの流れ（配送）</h2>
-    <p class="sec-lead">下の「かんたん注文フォーム」で注文メッセージを作成して、InstagramのDMまたはメールでお気軽にご注文ください。</p>
+    <h2 class="sec-title" id="flow-title">販売再開・ご注文のご案内</h2>
+    <p class="sec-lead flow-lead">ご注文は、内容と合計金額を農園と確認しながら進めます。</p>
     <div class="steps">
       <div class="step">
         <h4>ご希望内容をご連絡</h4>
@@ -450,72 +476,56 @@
       </div>
       <div class="step">
         <h4>合計金額のご確認</h4>
-        <p>商品の合計金額を計算してお知らせします。ご確認後、銀行振込（楽天銀行）または配送時の着払い（現金・カード・電子マネー）をお選びください。</p>
+        <p>商品の合計金額を計算してお知らせします。ご確認後、銀行振込（楽天銀行）または配送時の代金引換（現金・カード・電子マネー）をお選びください。</p>
       </div>
       <div class="step">
         <h4>朝摘みいちごをお届け</h4>
-        <p>朝摘みの完熟いちごを丁寧に梱包し、ヤマト運輸のクール便でお届けします。ご入金確認後（または注文確定後）3営業日以内に発送いたします。</p>
+        <p>朝摘みの完熟いちごを丁寧に梱包し、ヤマト運輸のクール便でお届けします。<span data-shipping-guide>現在はご注文受付を休止しています。</span></p>
       </div>
     </div>
 
     <div class="order-form" id="order">
-      <h3>📝 かんたん注文フォーム</h3>
-      <p class="of-lead">数量とお届け先を入力すると、注文メッセージを自動で作成します。<br>そのままメールで送るか、コピーしてInstagramのDMに貼り付けてください。</p>
+    <form id="order-form" novalidate>
+      <h3 id="order-title">📝 かんたん注文フォーム</h3>
+      <p class="of-lead" id="order-lead">現在は注文受付を休止しています。</p>
+      <p class="sales-notice" id="sales-notice" role="status">販売状況を読み込み中です。ボタンが無効のままの場合はお問い合わせください。</p>
+      <noscript><p>価格・販売状況と注文フォームの表示にはJavaScriptが必要です。メールまたはお電話でお問い合わせください。</p></noscript>
       <div class="of-grid">
-        <div class="of-products">
-          <div class="of-group">
-            <h5>レギュラーパック（10〜15粒・270g以上）</h5>
-            <div class="of-row"><label>とちおとめ／とちあいか／スカイベリー</label><span class="of-price">各600円</span><input type="number" min="0" max="30" value="0" data-name="レギュラーパック（とちおとめ/とちあいか/スカイベリー）" data-price="600"></div>
-            <div class="of-row"><label>ミルキーベリー</label><span class="of-price">1,000円</span><input type="number" min="0" max="30" value="0" data-name="レギュラーパック（ミルキーベリー）" data-price="1000"></div>
-            <div class="of-row"><label>お好みの品種＋ミルキー</label><span class="of-price">800円</span><input type="number" min="0" max="30" value="0" data-name="レギュラーパック（お好みの品種＋ミルキー）" data-price="800"></div>
-          </div>
-          <div class="of-group">
-            <h5>SPパック（大粒1段並べ・300g以上）</h5>
-            <div class="of-row"><label>とちおとめ／とちあいか／スカイベリー</label><span class="of-price">各750円</span><input type="number" min="0" max="30" value="0" data-name="SPパック（とちおとめ/とちあいか/スカイベリー）" data-price="750"></div>
-            <div class="of-row"><label>ミルキーベリー</label><span class="of-price">1,300円</span><input type="number" min="0" max="30" value="0" data-name="SPパック（ミルキーベリー）" data-price="1300"></div>
-            <div class="of-row"><label>お好みの品種＋ミルキー</label><span class="of-price">1,050円</span><input type="number" min="0" max="30" value="0" data-name="SPパック（お好みの品種＋ミルキー）" data-price="1050"></div>
-          </div>
-          <div class="of-group">
-            <h5>DXパック（2パック詰め・各12〜15粒）</h5>
-            <div class="of-row"><label>とちおとめ／とちあいか／スカイベリー／ミックス</label><span class="of-price">各1,600円</span><input type="number" min="0" max="30" value="0" data-name="DXパック（とちおとめ/とちあいか/スカイベリー/ミックス）" data-price="1600"></div>
-            <div class="of-row"><label>ミックス＋ミルキー</label><span class="of-price">2,100円</span><input type="number" min="0" max="30" value="0" data-name="DXパック（ミックス＋ミルキー）" data-price="2100"></div>
-            <div class="of-row"><label>ミルキーベリー</label><span class="of-price">3,000円</span><input type="number" min="0" max="30" value="0" data-name="DXパック（ミルキーベリー）" data-price="3000"></div>
-          </div>
-        </div>
+        <div class="of-products" id="of-products"></div>
         <div class="of-fields">
           <h5 class="of-sub">📦 お届け先</h5>
           <label for="of-rname">お名前</label>
-          <input id="of-rname" type="text" placeholder="例：いちご花子">
+          <input id="of-rname" type="text" placeholder="例：いちご花子" autocomplete="section-recipient shipping name" required>
           <div class="of-pair">
             <div>
               <label for="of-rtel">お電話番号</label>
-              <input id="of-rtel" type="tel" placeholder="例：090-1234-5678">
+              <input id="of-rtel" type="tel" placeholder="例：090-1234-5678" autocomplete="section-recipient shipping tel" required inputmode="tel">
             </div>
             <div>
               <label for="of-rzip">郵便番号</label>
-              <input id="of-rzip" type="text" placeholder="例：323-0014">
+              <input id="of-rzip" type="text" placeholder="例：323-0014" autocomplete="section-recipient shipping postal-code" required inputmode="numeric">
             </div>
           </div>
           <label for="of-raddr">ご住所</label>
-          <input id="of-raddr" type="text" placeholder="例：栃木県小山市○○ 1-2-3">
+          <input id="of-raddr" type="text" placeholder="例：栃木県小山市○○ 1-2-3" autocomplete="section-recipient shipping street-address" required>
 
           <h5 class="of-sub">🏠 ご依頼主（送り主）</h5>
           <label class="of-same"><input type="checkbox" id="of-same" checked> お届け先と同じ（ご自宅用）</label>
-          <div id="of-sender" style="display:none;">
+          <div id="of-sender" hidden>
             <label for="of-sname">お名前</label>
-            <input id="of-sname" type="text" placeholder="例：いちご太郎">
+            <input id="of-sname" type="text" placeholder="例：いちご太郎" autocomplete="section-sender shipping name" required disabled>
             <div class="of-pair">
               <div>
                 <label for="of-stel">お電話番号</label>
-                <input id="of-stel" type="tel" placeholder="例：080-1234-5678">
+                <input id="of-stel" type="tel" placeholder="例：080-1234-5678" autocomplete="section-sender shipping tel" required disabled inputmode="tel">
               </div>
               <div>
                 <label for="of-szip">郵便番号</label>
-                <input id="of-szip" type="text" placeholder="例：320-0000">
+                <input id="of-szip" type="text" placeholder="例：320-0000" autocomplete="section-sender shipping postal-code" required disabled inputmode="numeric">
               </div>
             </div>
             <label for="of-saddr">ご住所</label>
-            <input id="of-saddr" type="text" placeholder="例：栃木県宇都宮市○○ 4-5-6">
+            <input id="of-saddr" type="text" placeholder="例：栃木県宇都宮市○○ 4-5-6" autocomplete="section-sender shipping street-address" required disabled>
           </div>
 
           <h5 class="of-sub">🚚 配送のご希望</h5>
@@ -538,24 +548,35 @@
           </div>
           <label for="of-pay">お支払い方法</label>
           <select id="of-pay">
-            <option>銀行振込（楽天銀行）</option>
-            <option>着払い（現金・クレジットカード・電子マネー）</option>
+            <option value="bank">銀行振込（楽天銀行）</option>
+            <option value="cod">代金引換（現金・クレジットカード・電子マネー）</option>
           </select>
+          <p class="gift-note" id="gift-cod-note" hidden>代金引換では、お届け先の受取人がお支払いします。別住所へのギフトの場合も、受取人に請求されます。</p>
           <label for="of-memo">品種のご希望・備考</label>
-          <textarea id="of-memo" rows="3" placeholder="例：とちあいか2・とちおとめ1／紅白詰め希望 など"></textarea>
+          <textarea id="of-memo" rows="3" placeholder="例：DXミックスの品種のご希望など"></textarea>
         </div>
       </div>
-      <div class="of-total">商品合計（税込）<strong id="of-total">0円</strong><span>※送料（クール便・資材代込み）は別途かかります。確定金額は注文確認のご連絡でお知らせします。</span></div>
+      <div class="of-total">商品合計（税込）<strong id="of-total" aria-live="polite">0円</strong><span>※送料（クール便・資材代込み）は別途かかります。確定金額は注文確認のご連絡でお知らせします。</span></div>
       <div class="of-btns">
-        <a class="btn btn-red" id="of-mail" href="mailto:ichigo.brothers@gmail.com">✉️ メールで注文する</a>
-        <a class="btn btn-line" id="of-copy" href="#order">📋 コピーしてInstagram DMへ</a>
+        <button class="btn btn-red" type="button" id="of-mail" disabled aria-describedby="sales-notice">✉️ メール注文は休止中</button>
+        <button class="btn btn-line" type="button" id="of-copy" disabled aria-describedby="sales-notice">📋 DM用コピーは休止中</button>
       </div>
-      <p class="of-note">「コピーして…」を押すと注文メッセージがコピーされ、Instagramが開きます。DMに貼り付けて送信してください。</p>
+      <p class="of-note" id="send-help">現在は受付休止中です。</p>
+      <p class="form-errors" id="order-errors" role="alert"></p>
+      <div class="message-preview" id="message-preview" hidden>
+        <p id="copy-status" role="status"></p>
+        <label for="order-message">送信するメッセージ（確認・手動コピー用）</label>
+        <textarea id="order-message" readonly rows="12"></textarea>
+        <button class="btn btn-line" type="button" id="select-message">文章を選択する</button>
+        <a class="btn btn-red" href="https://www.instagram.com/ichigo_brothers/" target="_blank" rel="noopener noreferrer">Instagramを開く</a>
+      </div>
+      <p class="of-note">個人情報の取り扱いは<a href="privacy.html">プライバシーポリシー</a>をご覧ください。</p>
+    </form>
     </div>
 
     <div class="contact-btns">
-      <a class="btn btn-red" href="https://www.instagram.com/ichigo_brothers/">📷 InstagramでDMする</a>
-      <a class="btn btn-line" href="mailto:ichigo.brothers@gmail.com">✉️ メールで注文する</a>
+      <a class="btn btn-red" href="https://www.instagram.com/ichigo_brothers/">📷 Instagramで問い合わせる</a>
+      <a class="btn btn-line" href="mailto:ichigo.brothers@gmail.com">✉️ メールで問い合わせる</a>
       <a class="btn btn-line" href="tel:080-5549-3814">📞 080-5549-3814</a>
     </div>
   </div>
@@ -567,12 +588,12 @@
     <h2 class="sec-title">いちご兄弟の日々</h2>
     <p class="sec-lead">栽培のようすや直売所の最新情報は、Instagramで発信しています。</p>
     <div class="insta-grid" id="insta-grid">
-      <a href="https://www.instagram.com/ichigo_brothers/" target="_blank" rel="noopener"><img src="images/hero.jpg" alt="いちご兄弟農園のハウスにて" loading="lazy"></a>
-      <a href="https://www.instagram.com/ichigo_brothers/" target="_blank" rel="noopener"><img src="images/pack-dx.jpg" alt="DXパックのいちご" loading="lazy"></a>
-      <a href="https://www.instagram.com/ichigo_brothers/" target="_blank" rel="noopener"><img src="images/pack-regular.jpeg" alt="レギュラーパックのいちご" loading="lazy"></a>
-      <a href="https://www.instagram.com/ichigo_brothers/" target="_blank" rel="noopener"><img src="images/pack-sp.jpeg" alt="SPパックの大粒いちご" loading="lazy"></a>
-      <a href="https://www.instagram.com/ichigo_brothers/" target="_blank" rel="noopener"><img src="images/rainbow.jpeg" alt="農園にかかる虹" loading="lazy"></a>
-      <a href="https://www.instagram.com/ichigo_brothers/" target="_blank" rel="noopener"><img src="images/pack-otoku.jpg" alt="お徳用パックのいちご" loading="lazy"></a>
+      <a href="https://www.instagram.com/ichigo_brothers/" target="_blank" rel="noopener"><img src="images/hero-1440.webp" srcset="images/hero-480.webp 480w, images/hero-1440.webp 1440w" sizes="(max-width: 820px) 30vw, 180px" width="1920" height="1794" alt="いちご兄弟農園のハウスにて" loading="lazy" decoding="async"></a>
+      <a href="https://www.instagram.com/ichigo_brothers/" target="_blank" rel="noopener"><img src="images/pack-dx-800.webp" srcset="images/pack-dx-480.webp 480w, images/pack-dx-800.webp 800w" sizes="(max-width: 820px) 30vw, 180px" width="800" height="1000" alt="DXパックのいちご" loading="lazy" decoding="async"></a>
+      <a href="https://www.instagram.com/ichigo_brothers/" target="_blank" rel="noopener"><img src="images/pack-regular-960.webp" srcset="images/pack-regular-480.webp 480w, images/pack-regular-960.webp 960w" sizes="(max-width: 820px) 30vw, 180px" width="1000" height="750" alt="レギュラーパックのいちご" loading="lazy" decoding="async"></a>
+      <a href="https://www.instagram.com/ichigo_brothers/" target="_blank" rel="noopener"><img src="images/pack-sp-960.webp" srcset="images/pack-sp-480.webp 480w, images/pack-sp-960.webp 960w" sizes="(max-width: 820px) 30vw, 180px" width="1000" height="750" alt="SPパックの大粒いちご" loading="lazy" decoding="async"></a>
+      <a href="https://www.instagram.com/ichigo_brothers/" target="_blank" rel="noopener"><img src="images/rainbow-960.webp" srcset="images/rainbow-480.webp 480w, images/rainbow-960.webp 960w" sizes="(max-width: 820px) 30vw, 180px" width="1400" height="1050" alt="農園にかかる虹" loading="lazy" decoding="async"></a>
+      <a href="https://www.instagram.com/ichigo_brothers/" target="_blank" rel="noopener"><img src="images/pack-otoku-750.webp" srcset="images/pack-otoku-480.webp 480w, images/pack-otoku-750.webp 750w" sizes="(max-width: 820px) 30vw, 180px" width="750" height="1000" alt="お徳用パックのいちご" loading="lazy" decoding="async"></a>
     </div>
     <div class="insta-cta">
       <a class="btn btn-red" href="https://www.instagram.com/ichigo_brothers/" target="_blank" rel="noopener">📷 @ichigo_brothers をフォロー</a>
@@ -591,7 +612,7 @@
         <tr><th>定休日</th><td>不定休 ※ご来園前のお問い合わせがスムーズです</td></tr>
         <tr><th>販売形態</th><td>直売・配送（いちご狩りは行っておりません）</td></tr>
         <tr><th>所在地</th><td>栃木県小山市上泉６７　いちご兄弟農園</td></tr>
-        <tr><th>お支払い</th><td>現金／銀行振込（楽天銀行）／着払い（現金・クレジットカード・電子マネー）</td></tr>
+        <tr><th>お支払い</th><td>現金／銀行振込（楽天銀行）／代金引換（現金・クレジットカード・電子マネー）</td></tr>
         <tr><th>お問い合わせ</th><td>080-5549-3814（中島）<br>ichigo.brothers@gmail.com</td></tr>
       </table>
       <div class="map-box">
@@ -617,13 +638,12 @@
       <tr><th>電話番号</th><td>080-5549-3814</td></tr>
       <tr><th>メールアドレス</th><td>ichigo.brothers@gmail.com</td></tr>
       <tr><th>お支払い方法</th><td>現金支払い／銀行振込／代金引換・お届け時カード払い・お届け時電子マネー払い</td></tr>
-      <tr><th>商品代金以外の必要金額</th><td>送る場合、送料。代金引換・お届け時カード払い・お届け時電子マネー払いの場合、代引き手数料。銀行振込の場合、振込手数料。</td></tr>
+      <tr><th>商品代金以外の必要金額</th><td>送る場合、送料。<br>代金引換（お届け時カード払い・電子マネー払いを含む）の場合、代引き手数料。<br>銀行振込の場合、振込手数料。</td></tr>
       <tr><th>販売数量</th><td>1箱から</td></tr>
       <tr><th>お申込み有効期限</th><td>7日以内にお願いいたします。7日間入金がない場合は、キャンセルとさせていただきます。</td></tr>
-      <tr><th>商品引渡し時期</th><td>前払いの場合、指定日が無ければ入金確認後3営業日以内で発送致します。代引の場合、指定日が無ければご注文確認後3営業日以内で発送致します。その他の支払方法の場合、指定日が無ければご注文後3営業日以内で発送致します。後払いの場合、商品到着後7日以内にご入金ください。</td></tr>
+      <tr><th>商品引渡し時期</th><td id="legal-shipping">現在はご注文受付を休止しています。</td></tr>
       <tr><th>商品引渡し方法</th><td>当方にて手配後、運送会社による配送</td></tr>
-      <tr><th>返品・腐れ、カビ等について</th><td>「いちごの腐れ・カビ等の問題・当社の商品の間違い」の場合は当社が負担いたします。配送途中の破損などの事故がございましたら、弊社までご連絡下さい。送料・手数料ともに弊社負担で早急に新品をご送付致します。<br><br>【返品対象】「いちごの腐れ・カビ等の問題・当社の商品の間違い」の場合<br>【返品時期】お届けから24時間以内にご連絡があった場合に返金可能となります。<br>【返品方法】メールにて返金要請してください。その際に当該の写真を添付して頂きます。3日以内にご購入代金を指定の口座へお振込みいたします。</td></tr>
-      <tr><th>表現、及び商品に関する注意書き</th><td>本商品に示された表現や再現性には個人差があり、必ずしも利益や効果を保証したものではございません。</td></tr>
+      <tr><th>返品・交換・返金について</th><td><strong>対象</strong><br>いちごの腐れ・カビ等の問題、商品の間違い、配送途中の破損などの事故がございましたら、当農園までご連絡ください。<br><br><strong>交換</strong><br>送料・手数料ともに当農園負担で、早急に新品をお送りします。<br><br><strong>返金をご希望の場合</strong><br>いちごの腐れ・カビ等の問題、商品の間違いの場合は、お届けから24時間以内に、当該の写真を添付してメールで返金をご依頼ください。3日以内にご購入代金をご指定の口座へお振り込みいたします。</td></tr>
     </table>
   </details>
 </section>
@@ -639,117 +659,8 @@
   <p style="margin-top:24px; font-size:11.5px;">© いちご兄弟農園</p>
 </footer>
 
-<script>
-(function () {
-  var qtyInputs = document.querySelectorAll('.of-products input[type="number"]');
-  var timeLabels = { '': '指定なし', '0812': '午前中', '1416': '14〜16時', '1618': '16〜18時', '1820': '18〜20時', '1921': '19〜21時' };
-  function yen(n) { return n.toLocaleString('ja-JP') + '円'; }
-  function val(id) { return document.getElementById(id).value.trim(); }
-  function sameSender() { return document.getElementById('of-same').checked; }
-  function sender(f) { return sameSender() ? val('of-r' + f) : val('of-s' + f); }
-  function dateJp(v) { if (!v) return ''; var p = v.split('-'); return p[0] + '年' + (+p[1]) + '月' + (+p[2]) + '日'; }
-  function dateB2(v) { return v ? v.replace(/-/g, '/') : ''; }
-  function build() {
-    var lines = [], total = 0, packs = 0;
-    qtyInputs.forEach(function (i) {
-      var q = parseInt(i.value, 10) || 0;
-      if (q > 0) {
-        lines.push('・' + i.dataset.name + ' × ' + q);
-        total += q * parseInt(i.dataset.price, 10);
-        packs += q;
-      }
-    });
-    document.getElementById('of-total').textContent = yen(total);
-    var t = document.getElementById('of-time').value;
-    var msg = 'いちご兄弟農園 ご注文希望\n\n【ご注文内容】\n';
-    msg += lines.length ? lines.join('\n') : '（未選択）';
-    msg += '\n商品合計：' + yen(total) + '（税込・送料別）\n';
-    msg += '\n【お届け先】';
-    msg += '\nお名前：' + val('of-rname');
-    msg += '\nお電話番号：' + val('of-rtel');
-    msg += '\n郵便番号：' + val('of-rzip');
-    msg += '\nご住所：' + val('of-raddr');
-    msg += '\n\n【ご依頼主（送り主）】';
-    if (sameSender()) {
-      msg += '\nお届け先と同じ';
-    } else {
-      msg += '\nお名前：' + val('of-sname');
-      msg += '\nお電話番号：' + val('of-stel');
-      msg += '\n郵便番号：' + val('of-szip');
-      msg += '\nご住所：' + val('of-saddr');
-    }
-    msg += '\n\n【配送のご希望】';
-    msg += '\nお届け日：' + (dateJp(val('of-date')) || '指定なし');
-    msg += '\n時間帯：' + timeLabels[t];
-    msg += '\nお支払い方法：' + document.getElementById('of-pay').value;
-    if (val('of-memo')) msg += '\n品種のご希望・備考：' + val('of-memo');
-    var csv = [
-      dateB2(val('of-date')), t,
-      val('of-rtel'), val('of-rzip'), val('of-raddr'), val('of-rname'),
-      sender('tel'), sender('zip'), sender('addr'), sender('name'),
-      'いちご' + (packs ? ' ' + packs + 'パック' : '')
-    ].map(function (s) { return '"' + String(s).replace(/"/g, '""') + '"'; }).join(',');
-    msg += '\n\n▼店舗用・ヤマトB2取込データ（お届け日,時間帯ｺｰﾄﾞ,届け先TEL,〒,住所,氏名,依頼主TEL,〒,住所,氏名,品名）\n' + csv;
-    return msg;
-  }
-  function refresh() {
-    document.getElementById('of-mail').href =
-      'mailto:ichigo.brothers@gmail.com?subject=' +
-      encodeURIComponent('いちごのご注文（' + (sender('name') || 'お名前未入力') + '）') +
-      '&body=' + encodeURIComponent(build());
-  }
-  document.getElementById('of-same').addEventListener('change', function () {
-    document.getElementById('of-sender').style.display = this.checked ? 'none' : 'block';
-    refresh();
-  });
-  document.querySelectorAll('.order-form input, .order-form select, .order-form textarea')
-    .forEach(function (el) { el.addEventListener('input', refresh); });
-  document.getElementById('of-copy').addEventListener('click', function (e) {
-    e.preventDefault();
-    var msg = build();
-    function done() {
-      alert('注文メッセージをコピーしました。開いたInstagramのDMに貼り付けて送信してください。');
-      window.open('https://www.instagram.com/ichigo_brothers/', '_blank');
-    }
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(msg).then(done, done);
-    } else { done(); }
-  });
-  refresh();
-})();
-
-/* ===== Instagramフィード =====
-   Behold（https://behold.so）と連携すると、最新の投稿が自動でサムネイル表示されます。
-   連携方法: Beholdで無料アカウントを作成しInstagramを接続 → 発行されたJSONフィードの
-   URLを下の BEHOLD_FEED_URL に貼り付けてください。未設定の間は手動サムネイルを表示します。 */
-(function () {
-  var BEHOLD_FEED_URL = 'https://feeds.behold.so/QarVyzzlJm2PSsWcTt8V';
-  if (!BEHOLD_FEED_URL) return;
-  fetch(BEHOLD_FEED_URL)
-    .then(function (r) { return r.json(); })
-    .then(function (data) {
-      var posts = Array.isArray(data) ? data : (data.posts || []);
-      if (!posts.length) return;
-      var grid = document.getElementById('insta-grid');
-      grid.innerHTML = '';
-      posts.slice(0, 6).forEach(function (p) {
-        var src = p.thumbnailUrl || (p.sizes && p.sizes.medium && p.sizes.medium.mediaUrl) || p.mediaUrl;
-        if (!src) return;
-        var a = document.createElement('a');
-        a.href = p.permalink || 'https://www.instagram.com/ichigo_brothers/';
-        a.target = '_blank';
-        a.rel = 'noopener';
-        var img = document.createElement('img');
-        img.src = src;
-        img.alt = 'いちご兄弟農園のInstagram投稿';
-        img.loading = 'lazy';
-        a.appendChild(img);
-        grid.appendChild(a);
-      });
-    })
-    .catch(function () { /* 取得に失敗した場合は手動サムネイルのまま表示 */ });
-})();
-</script>
+<script src="site-config.js" defer></script>
+<script src="site.js" defer></script>
 
 </body>
 </html>
