@@ -16,8 +16,10 @@
       const lower = !!figure.closest('.layer-guide');
       const box = !!figure.closest('.boxing-example');
       const title = lower ? (figure.querySelector('img').alt.startsWith('赤') ? '赤いいちごの下段' : 'ミルキーベリーの下段') : box ? '2パックの箱詰め例' : caption.querySelector('strong').textContent;
-      const description = lower ? '下段のみを撮影した説明用写真です。完成品は、この上にもう1段重ねた上下2段組みです。' : box ? caption.textContent : caption.querySelector('span')?.textContent || '上下2段組みのレギュラーパックです。';
+      const description = lower ? '下段のみを撮影した説明用写真です。完成品は、この上にもう1段重ねた上下2段組みです。' : box ? caption.textContent : caption.querySelector('span')?.textContent || source.dataset.galleryDescription || '上下2段組みのレギュラーパックです。';
       const clone = figure.cloneNode(true);
+      const frame = clone.querySelector('.product-photo');
+      if (frame) { const parts = frame.style.aspectRatio.split('/').map(Number); frame.style.setProperty('--crop-ratio', String(parts[0] / (parts[1] || 1))); }
       clone.querySelectorAll('img').forEach(img => {
         // 初めて選択したときだけ画像を読み込む。
         img.dataset.src = img.getAttribute('src');
