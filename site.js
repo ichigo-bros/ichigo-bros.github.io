@@ -59,7 +59,15 @@
       input.id = id; input.type = 'number'; input.min = '0'; input.max = '30'; input.step = '1'; input.value = '0'; input.inputMode = 'numeric';
       input.setAttribute('aria-label', names[group] + '・' + variant + 'の数量（' + (group === 'dx' ? 'セット' : 'パック') + '）');
       row.append(label, price, input); fieldset.append(row);
-      entries.push({ input, product: p, name: names[group] + '／' + variant });
+      let choice;
+      if (p.choices) {
+        choice = document.createElement('select'); choice.id = id + '-choice';
+        choice.setAttribute('aria-label', variant + 'の品種の組み合わせ');
+        p.choices.forEach(text => choice.append(new Option(text, text)));
+        choice.style.cssText = 'width:100%;min-height:44px;margin:0 0 14px;font:inherit;font-size:13px';
+        fieldset.append(choice);
+      }
+      entries.push({ input, product: p, get name() { return names[group] + '／' + variant + (choice ? '（' + choice.value + '）' : ''); } });
     }));
     $('of-products').append(fieldset);
   });
