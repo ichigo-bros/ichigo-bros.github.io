@@ -11,6 +11,7 @@
     dialog.setAttribute('aria-labelledby', titleId);
     dialog.innerHTML = `<header class="gallery-header"><div><p>PRODUCT GALLERY</p><h2 id="${titleId}"></h2></div><button class="gallery-close" type="button" aria-label="写真を閉じる" autofocus>×</button></header><div class="gallery-body"><div class="gallery-stage"></div><div class="gallery-info"><div class="gallery-caption" aria-live="polite"><h3></h3><p></p></div><div><p class="gallery-picker-label">品種・詰め方を選ぶ</p><div class="gallery-picker" role="group" aria-label="写真を選ぶ"></div></div><div class="gallery-controls"><button type="button" data-step="-1" aria-label="前の写真">←</button><span class="gallery-counter"></span><button type="button" data-step="1" aria-label="次の写真">→</button></div></div></div>`;
     dialog.querySelector('h2').textContent = source.dataset.galleryTitle;
+    dialog.querySelector('.gallery-picker-label').textContent = source.dataset.galleryPickerLabel || '品種・詰め方を選ぶ';
     const items = figures.map(figure => {
       const caption = figure.querySelector('figcaption');
       const lower = !!figure.closest('.layer-guide');
