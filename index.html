@@ -161,6 +161,32 @@
   .pack .note { font-size: 12.5px; color: var(--ink-light); margin-top: 14px; }
   .pack .note strong { color: var(--green); }
 
+
+  .regular-gallery { margin-top:48px; scroll-margin-top:100px; }
+  .regular-gallery h3 { font-size:24px; color:var(--red-dark); }
+  .regular-gallery > p { margin:12px 0 24px; }
+  .product-photo-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:24px; align-items:start; }
+  .regular-gallery figure { margin:0; min-width:0; }
+  .product-photo { position:relative; overflow:hidden; border-radius:12px; background:var(--cream); }
+  .product-photo img { position:absolute; width:var(--photo-width); max-width:none; height:auto; left:var(--photo-left); top:var(--photo-top); display:block; }
+  .regular-gallery figcaption { font-size:14px; padding:10px 0; line-height:1.7; }
+  .regular-gallery figcaption strong { font-size:17px; }
+  .regular-gallery figcaption span { display:block; color:var(--ink-light); }
+  .layer-guide { margin-top:32px; padding:24px; background:var(--cream); border-radius:16px; }
+  .layer-guide h4 { font-size:20px; margin-bottom:12px; }
+  .layer-photo-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:24px; margin-top:20px; }
+  .layer-photo-grid img { display:block; width:100%; height:auto; border-radius:10px; }
+  .boxing-example { margin-top:24px; }
+  .boxing-example summary { cursor:pointer; color:var(--red-dark); padding:12px 0; }
+  .boxing-example figure { max-width:480px; margin:16px auto; }
+  .boxing-example img { width:100%; height:auto; display:block; border-radius:12px; }
+  @media(max-width:600px) {
+    .product-photo-grid { grid-template-columns:repeat(2,minmax(0,1fr)); gap:20px 12px; }
+    .regular-gallery figcaption strong { font-size:16px; }
+    .layer-guide { padding:18px; }
+    .layer-photo-grid { grid-template-columns:1fr; }
+  }
+
   /* ===== 購入の流れ ===== */
   .flow { background: var(--pink); }
   .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; counter-reset: step; }
@@ -430,37 +456,57 @@
   <div class="inner">
     <div class="sec-label">PRODUCTS</div>
     <h2 class="sec-title">商品・価格</h2>
-    <p class="sec-lead">表示価格はすべて税込です。直売大歓迎！配送も承ります。<br>ご希望があれば紅白で詰めることもできます。</p>
+    <p class="sec-lead" data-price-notice>全商品の価格は準備中です。価格が決まり次第お知らせします。送料は注文フォームでご確認いただけます。</p>
     <div class="pack-grid">
       <div class="pack best">
-        <div class="pack-img"><img src="images/pack-regular-960.webp" srcset="images/pack-regular-480.webp 480w, images/pack-regular-960.webp 960w" sizes="(max-width: 820px) calc(100vw - 40px), 520px" width="1000" height="750" alt="レギュラーパック" loading="lazy" decoding="async"></div>
+        <a class="pack-img" href="#regular-photos" aria-label="レギュラーパックの品種別写真を見る"><img src="images/regular-red-varieties.jpg" width="3024" height="4032" alt="とちおとめ・とちあいか・スカイベリーのレギュラーパックの箱詰め例" loading="lazy" decoding="async"></a>
         <h3>レギュラーパック</h3>
+        <p><a href="#regular-photos">品種別の写真・2段組みの説明を見る ↓</a></p>
         <p class="desc">上下2段組み・1パック10〜15粒（内容量270g以上）</p>
-        <table class="price-table" data-price-group="regular"><tbody><tr><td>価格を読み込み中です。表示されない場合はお問い合わせください。</td></tr></tbody></table>
+        <table class="price-table" data-price-group="regular"><tbody><tr><td>価格は準備中です。</td></tr></tbody></table>
         <p class="note">配送の場合：送料はお届け先と数量により計算（クール便・箱代・税込）。下の注文フォームで確認できます。</p>
       </div>
       <div class="pack">
         <div class="pack-img"><img src="images/pack-sp-960.webp" srcset="images/pack-sp-480.webp 480w, images/pack-sp-960.webp 960w" sizes="(max-width: 820px) calc(100vw - 40px), 520px" width="1000" height="750" alt="SPパック" loading="lazy" decoding="async"></div>
         <h3>SPパック</h3>
         <p class="desc">大粒いちごを重ねず1段並べ・6〜11粒（内容量300g以上）。クッション敷きで輸送にも安心。</p>
-        <table class="price-table" data-price-group="sp"><tbody><tr><td>価格を読み込み中です。表示されない場合はお問い合わせください。</td></tr></tbody></table>
+        <table class="price-table" data-price-group="sp"><tbody><tr><td>価格は準備中です。</td></tr></tbody></table>
         <p class="note">配送の場合：送料はお届け先と数量により計算（クール便・箱代・税込）。下の注文フォームで確認できます。</p>
       </div>
       <div class="pack">
         <div class="pack-img"><img src="images/pack-dx-800.webp" srcset="images/pack-dx-480.webp 480w, images/pack-dx-800.webp 800w" sizes="(max-width: 820px) calc(100vw - 40px), 520px" width="800" height="1000" alt="DXパック" loading="lazy" decoding="async"></div>
         <h3>DXパック（2パック詰め）</h3>
         <p class="desc">お好みの品種を2〜4種類選べる贅沢セット。1パック12〜15粒入り。</p>
-        <table class="price-table" data-price-group="dx"><tbody><tr><td>価格を読み込み中です。表示されない場合はお問い合わせください。</td></tr></tbody></table>
+        <table class="price-table" data-price-group="dx"><tbody><tr><td>価格は準備中です。</td></tr></tbody></table>
         <p class="note">配送の場合：送料はお届け先と数量により計算（クール便・箱代・税込）。下の注文フォームで確認できます。</p>
       </div>
       <div class="pack">
         <div class="pack-img"><img src="images/pack-otoku-750.webp" srcset="images/pack-otoku-480.webp 480w, images/pack-otoku-750.webp 750w" sizes="(max-width: 820px) calc(100vw - 40px), 520px" width="750" height="1000" alt="お徳用パック（完熟いちごのバラ詰め）" loading="lazy" decoding="async"></div>
         <h3>お徳用パック <span style="font-size:13px;color:var(--green)">※直売のみ</span></h3>
         <p class="desc">完熟いちごのバラ詰め。いろんな品種の食べ比べが楽しめます。完熟品のためお早めにどうぞ。</p>
-        <table class="price-table" data-price-group="otoku"><tbody><tr><td>価格を読み込み中です。表示されない場合はお問い合わせください。</td></tr></tbody></table>
+        <table class="price-table" data-price-group="otoku"><tbody><tr><td>価格は準備中です。</td></tr></tbody></table>
         <p class="note"><strong>農園直売所限定。</strong>中で擦れてしまうため輸送は行っておりません。複数品種のミックスもできます！</p>
       </div>
     </div>
+
+    <section class="regular-gallery" id="regular-photos" aria-labelledby="regular-photo-title">
+      <h3 id="regular-photo-title">レギュラーパックの写真</h3>
+      <p>上下2段組みで詰めたレギュラーパック。品種ごとの写真をご覧いただけます。</p>
+      <div class="product-photo-grid"><figure><div class="product-photo" style="aspect-ratio:1.17/1.48;--photo-width:256.4102564102564%;--photo-left:-38.46153846153846%;--photo-top:-29.72972972972973%"><img src="images/regular-red-varieties.jpg" alt="とちおとめのレギュラーパック" loading="lazy" decoding="async"></div><figcaption><strong>とちおとめ</strong></figcaption></figure>
+<figure><div class="product-photo" style="aspect-ratio:1.26/1.76;--photo-width:238.0952380952381%;--photo-left:-116.66666666666667%;--photo-top:-115.90909090909092%"><img src="images/regular-red-varieties.jpg" alt="とちあいかのレギュラーパック" loading="lazy" decoding="async"></div><figcaption><strong>とちあいか</strong></figcaption></figure>
+<figure><div class="product-photo" style="aspect-ratio:1.2000000000000002/1.8;--photo-width:250%;--photo-left:-17.5%;--photo-top:-108.88888888888889%"><img src="images/regular-red-varieties.jpg" alt="スカイベリーのレギュラーパック" loading="lazy" decoding="async"></div><figcaption><strong>スカイベリー</strong></figcaption></figure>
+<figure><div class="product-photo" style="aspect-ratio:3/4;--photo-width:100%;--photo-left:0%;--photo-top:0%"><img src="images/regular-milky.jpg" alt="ミルキーベリーのレギュラーパック" loading="lazy" decoding="async"></div><figcaption><strong>ミルキーベリー</strong></figcaption></figure>
+<figure><div class="product-photo" style="aspect-ratio:1.17/1.52;--photo-width:256.4102564102564%;--photo-left:-23.076923076923077%;--photo-top:-18.42105263157895%"><img src="images/regular-mix-box.jpg" alt="紅白ミックスのレギュラーパック（赤い品種は一例）" loading="lazy" decoding="async"></div><figcaption><strong>紅白ミックス</strong><span>赤い品種は一例です。紅白の詰め合わせイメージとしてご覧ください。</span></figcaption></figure></div>
+      <div class="layer-guide">
+        <h4>見えているいちごの下にも、もう1段</h4>
+        <p>レギュラーパックは上下2段組みです。下の2枚は、詰め方をお伝えするために<strong>下段だけ</strong>を撮影したものです。完成品は、この上にもう1段重ねています。</p>
+        <div class="layer-photo-grid">
+          <figure><img src="images/regular-red-lower.jpg" width="4284" height="5712" alt="赤いいちごの下段のみ。完成品ではありません" loading="lazy" decoding="async"><figcaption>赤いいちご：下段のみの説明用写真</figcaption></figure>
+          <figure><img src="images/regular-milky-lower.jpg" width="3024" height="4032" alt="ミルキーベリーの下段のみ。完成品ではありません" loading="lazy" decoding="async"><figcaption>ミルキーベリー：下段のみの説明用写真</figcaption></figure>
+        </div>
+      </div>
+      <details class="boxing-example"><summary>2パックを箱に詰めた例を見る</summary><figure><img src="images/regular-two-pack-box.jpg" width="3024" height="4032" alt="スカイベリー1パックとミルキーベリー1パックを別々のパックで箱詰めした例" loading="lazy" decoding="async"><figcaption>赤いいちごとミルキーベリーを、別々のパックで箱詰めした例です。1パック内に紅白を詰めるミックスとは異なります。</figcaption></figure></details>
+    </section>
   </div>
 </section>
 
@@ -558,10 +604,10 @@
           <textarea id="of-memo" rows="3" placeholder="例：DXミックスの品種のご希望など"></textarea>
         </div>
       </div>
-      <div class="of-total">商品合計（税込）<strong id="of-total" aria-live="polite">0円</strong><span>送料は下に表示します。</span></div>
+      <div class="of-total">商品合計（税込）<strong id="of-total" aria-live="polite">準備中</strong><span>送料は下に表示します。</span></div>
       <div class="of-total" aria-live="polite">送料（クール便・箱代・税込）<strong id="shipping-total">都道府県と商品数量を選択してください</strong></div>
       <ul id="shipping-details" class="of-note"></ul>
-      <div class="of-total">商品代金＋送料<strong id="grand-total" aria-live="polite">—</strong><span>代引き手数料・振込手数料は別途かかります。</span></div>
+      <div class="of-total">商品代金＋送料<strong id="grand-total" aria-live="polite">準備中</strong><span>代引き手数料・振込手数料は別途かかります。</span></div>
       <p class="of-note">ご注文数に応じて箱詰めし、箱内に空きがある場合は、商品を保護するため緩衝材を入れて発送します。1個口は最大6箱とし、7箱以上は複数口に分けて送料を合算します。</p>
       <div class="of-btns">
         <button class="btn btn-red" type="button" id="of-mail" disabled aria-describedby="sales-notice">✉️ メール注文は休止中</button>

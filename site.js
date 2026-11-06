@@ -21,12 +21,19 @@
   const same = () => $('of-same').checked;
   const sender = f => same() && f==='addr' ? recipientAddress() : value((same() ? 'of-r' : 'of-s') + f);
   const sale = ['selling', 'preorder'].includes(config.salesStatus) ? config.salesStatus : 'paused';
-  const enabled = () => sale !== 'paused';
+  const pricesReady = config.products.every(p => Number.isFinite(p.price) && p.price >= 0);
+  const priceText = p => Number.isFinite(p.price) && p.price >= 0 ? yen(p.price) : '準備中';
+  const enabled = () => sale !== 'paused' && pricesReady;
   const stateText = {
     paused: { notice: '🍓 現在、いちごの販売・ご注文受付は休止中です。次回は' + config.reopening, cta: '販売再開のご案内', mail: 'メール注文は休止中', copy: 'DM用コピーは休止中', shipping: '現在は販売・ご注文受付を休止しています。次回は' + config.reopening },
     selling: { notice: '🍓 今シーズンのいちごを販売中です。直売・配送を承ります。', cta: 'ご注文はこちら', mail: 'メールで注文する', copy: '注文文をコピーする', shipping: 'ご入金確認後（または注文確定後）3営業日以内に発送いたします。' },
     preorder: { notice: '🍓 いちごのご予約を受け付けています。' + config.reservationShipping, cta: 'ご予約はこちら', mail: 'メールで予約する', copy: '予約文をコピーする', shipping: config.reservationShipping }
   }[sale];
+
+  if (!pricesReady && sale !== 'paused') {
+    Object.assign(stateText, { notice: '🍓 商品価格は準備中です。ご注文受付の再開までお待ちください。', cta: '商品価格は準備中', mail: '価格準備中', copy: '価格準備中', shipping: '商品価格は準備中のため、ご注文受付・発送を休止しています。' });
+  }
+  document.querySelector('[data-price-notice]').textContent = pricesReady ? '表示価格はすべて税込です。ご希望があれば紅白で詰めることもできます。' : '全商品の価格は準備中です。価格が決まり次第お知らせします。送料は注文フォームでご確認いただけます。';
 
   // 商品表とフォームの両方を同じ価格設定から作る
   document.querySelectorAll('[data-price-group]').forEach(table => {
@@ -34,7 +41,7 @@
     config.products.filter(p => p.group === table.dataset.priceGroup).forEach(p => {
       const tr = document.createElement('tr');
       const label = document.createElement('td'); label.textContent = p.label;
-      const price = document.createElement('td'); price.className = 'yen'; price.textContent = (p.variants.length > 1 ? '各 ' : '') + yen(p.price);
+      const price = document.createElement('td'); price.className = 'yen'; price.textContent = (p.variants.length > 1 && Number.isFinite(p.price) ? '各 ' : '') + priceText(p);
       tr.append(label, price); body.append(tr);
     });
     table.replaceChildren(body);
@@ -47,7 +54,7 @@
       const id = 'qty-' + p.id + '-' + index;
       const row = document.createElement('div'); row.className = 'of-row';
       const label = document.createElement('label'); label.htmlFor = id; label.textContent = variant;
-      const price = document.createElement('span'); price.className = 'of-price'; price.textContent = yen(p.price);
+      const price = document.createElement('span'); price.className = 'of-price'; price.textContent = priceText(p);
       const input = document.createElement('input');
       input.id = id; input.type = 'number'; input.min = '0'; input.max = '30'; input.step = '1'; input.value = '0'; input.inputMode = 'numeric';
       input.setAttribute('aria-label', names[group] + '・' + variant + 'の数量（' + (group === 'dx' ? 'セット' : 'パック') + '）');
@@ -61,7 +68,7 @@
   $('sales-notice').textContent = stateText.notice.replace('🍓 ', '');
   document.querySelectorAll('[data-order-cta]').forEach(el => { el.textContent = stateText.cta; });
   document.querySelectorAll('[data-shipping-guide]').forEach(el => { el.textContent = stateText.shipping; });
-  $('legal-shipping').textContent = sale === 'selling'
+  $('legal-shipping').textContent = sale === 'selling' && pricesReady
     ? '前払いの場合、指定日が無ければ入金確認後3営業日以内に発送します。代金引換の場合、指定日が無ければご注文確認後3営業日以内に発送します。'
     : stateText.shipping;
   $('flow-title').textContent = sale === 'preorder' ? 'ご予約からお届けまで（配送）' : sale === 'paused' ? '販売再開・ご注文のご案内' : 'ご購入までの流れ（配送）';
@@ -72,7 +79,7 @@
   $('of-mail').disabled = $('of-copy').disabled = !enabled();
   $('send-help').textContent = enabled()
     ? '入力だけでは注文は送信されません。作成した内容を確認して、メールまたはInstagram DMで送信してください。'
-    : '現在は受付休止中のため、メール・コピーのボタンはご利用いただけません。次回は' + config.reopening;
+    : (!pricesReady ? '商品価格は準備中です。メール・コピーのボタンはご利用いただけません。' : '現在は受付休止中のため、メール・コピーのボタンはご利用いただけません。') + (sale === 'paused' ? '次回は' + config.reopening : '');
 
   function today() { return new Intl.DateTimeFormat('sv-SE', { timeZone: 'Asia/Tokyo', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date()); }
   $('of-date').min = today();
@@ -83,17 +90,17 @@
   }
   function totals() {
     let total = 0, packs = 0, count = 0, invalid = false;
-    entries.forEach(e => { const q = quantity(e); if (q === null) { invalid = true; return; } total += q * e.product.price; packs += q * e.product.packs; count += q; });
-    return { total, packs, count, invalid };
+    entries.forEach(e => { const q = quantity(e); if (q === null) { invalid = true; return; } if (pricesReady) total += q * e.product.price; packs += q * e.product.packs; count += q; });
+    return { total: pricesReady ? total : null, packs, count, invalid };
   }
   function clearPreview() { $('message-preview').hidden = true; $('order-message').value = ''; $('copy-status').textContent = ''; }
   function refresh() {
-    const result = totals(); $('of-total').textContent = result.invalid ? '数量を確認してください' : yen(result.total);
+    const result = totals(); $('of-total').textContent = result.invalid ? '数量を確認してください' : pricesReady ? yen(result.total) : '準備中';
     const shipment=delivery();$('shipping-details').replaceChildren();
     if(result.invalid || !result.count || !shipment){
-      $('shipping-total').textContent=result.invalid?'数量を確認してください':'都道府県と商品数量を選択してください';$('grand-total').textContent='—';
+      $('shipping-total').textContent=result.invalid?'数量を確認してください':'都道府県と商品数量を選択してください';$('grand-total').textContent=result.invalid || pricesReady ? '—' : '準備中';
     }else{
-      $('shipping-total').textContent=yen(shipment.total);$('grand-total').textContent=yen(result.total+shipment.total);
+      $('shipping-total').textContent=yen(shipment.total);$('grand-total').textContent=pricesReady ? yen(result.total+shipment.total) : '準備中';
       shipment.parcels.forEach((parcel,index)=>{const li=document.createElement('li');li.textContent=parcelText(parcel,index);$('shipping-details').append(li);});
     }
     $('gift-cod-note').hidden = same() || value('of-pay') !== 'cod';

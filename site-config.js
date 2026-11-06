@@ -4,18 +4,19 @@ window.FARM_CONFIG = {
   salesStatus: 'paused',
   reopening: '11月下旬〜6月上旬の販売を予定しています。',
   reservationShipping: '発送時期は、ご予約確認の際にお知らせします。',
+  // price: null は価格準備中。確定後に税込円の数値を設定してください。
   products: [
-    { id: 'regular-red', group: 'regular', label: 'とちおとめ／とちあいか／スカイベリー', price: 600, packs: 1, variants: ['とちおとめ', 'とちあいか', 'スカイベリー'] },
-    { id: 'regular-white', group: 'regular', label: 'ミルキーベリー', price: 1000, packs: 1, variants: ['ミルキーベリー'] },
-    { id: 'regular-mix', group: 'regular', label: 'お好みの品種＋ミルキー', price: 800, packs: 1, variants: ['とちおとめ＋ミルキー', 'とちあいか＋ミルキー', 'スカイベリー＋ミルキー'] },
-    { id: 'sp-red', group: 'sp', label: 'とちおとめ／とちあいか／スカイベリー', price: 750, packs: 1, variants: ['とちおとめ', 'とちあいか', 'スカイベリー'] },
-    { id: 'sp-white', group: 'sp', label: 'ミルキーベリー', price: 1300, packs: 1, variants: ['ミルキーベリー'] },
-    { id: 'sp-mix', group: 'sp', label: 'お好みの品種＋ミルキー', price: 1050, packs: 1, variants: ['とちおとめ＋ミルキー', 'とちあいか＋ミルキー', 'スカイベリー＋ミルキー'] },
-    { id: 'dx-red', group: 'dx', label: 'とちおとめ／とちあいか／スカイベリー', price: 1600, packs: 2, variants: ['とちおとめ', 'とちあいか', 'スカイベリー'] },
-    { id: 'dx-mix', group: 'dx', label: '各種ミックス（3種まで）', price: 1600, packs: 2, variants: ['ミックス（品種おまかせ・3種まで）'] },
-    { id: 'dx-milky-mix', group: 'dx', label: 'ミックス＋ミルキー', price: 2100, packs: 2, variants: ['ミックス＋ミルキー（赤いちごの品種おまかせ）'] },
-    { id: 'dx-white', group: 'dx', label: 'ミルキーベリー', price: 3000, packs: 2, variants: ['ミルキーベリー'] },
-    { id: 'otoku-small', group: 'otoku', label: 'お徳用パック（小）', price: 300, packs: 1, variants: [] },
-    { id: 'otoku-large', group: 'otoku', label: 'お徳用パック（大）', price: 1000, packs: 1, variants: [] }
+    { id: 'regular-red', group: 'regular', label: 'とちおとめ／とちあいか／スカイベリー', price: null, packs: 1, variants: ['とちおとめ', 'とちあいか', 'スカイベリー'] },
+    { id: 'regular-white', group: 'regular', label: 'ミルキーベリー', price: null, packs: 1, variants: ['ミルキーベリー'] },
+    { id: 'regular-mix', group: 'regular', label: 'お好みの品種＋ミルキー', price: null, packs: 1, variants: ['とちおとめ＋ミルキー', 'とちあいか＋ミルキー', 'スカイベリー＋ミルキー'] },
+    { id: 'sp-red', group: 'sp', label: 'とちおとめ／とちあいか／スカイベリー', price: null, packs: 1, variants: ['とちおとめ', 'とちあいか', 'スカイベリー'] },
+    { id: 'sp-white', group: 'sp', label: 'ミルキーベリー', price: null, packs: 1, variants: ['ミルキーベリー'] },
+    { id: 'sp-mix', group: 'sp', label: 'お好みの品種＋ミルキー', price: null, packs: 1, variants: ['とちおとめ＋ミルキー', 'とちあいか＋ミルキー', 'スカイベリー＋ミルキー'] },
+    { id: 'dx-red', group: 'dx', label: 'とちおとめ／とちあいか／スカイベリー', price: null, packs: 2, variants: ['とちおとめ', 'とちあいか', 'スカイベリー'] },
+    { id: 'dx-mix', group: 'dx', label: '各種ミックス（3種まで）', price: null, packs: 2, variants: ['ミックス（品種おまかせ・3種まで）'] },
+    { id: 'dx-milky-mix', group: 'dx', label: 'ミックス＋ミルキー', price: null, packs: 2, variants: ['ミックス＋ミルキー（赤いちごの品種おまかせ）'] },
+    { id: 'dx-white', group: 'dx', label: 'ミルキーベリー', price: null, packs: 2, variants: ['ミルキーベリー'] },
+    { id: 'otoku-small', group: 'otoku', label: 'お徳用パック（小）', price: null, packs: 1, variants: [] },
+    { id: 'otoku-large', group: 'otoku', label: 'お徳用パック（大）', price: null, packs: 1, variants: [] }
   ]
 };
