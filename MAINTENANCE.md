@@ -77,3 +77,5 @@ GitHub Pagesは main ブランチへの更新後に公開されます。更新�
 商品一覧には代表写真だけを置き、詳しい写真は `gallery.js` のダイアログで1枚ずつ表示します。写真の追加は `.gallery-source` 内の `figure` を追加するだけです。商品ごとに一意のIDと `data-gallery-title` を持つ `.gallery-source` を用意し、そのIDへのリンクをカードに置くと同じ仕組みを利用できます。写真には見出しを `figcaption > strong`、補足を `figcaption > span` に記載してください。下段の説明写真と箱詰め例は既存の専用クラスを使います。JavaScriptが無効の場合は、折りたたみ式の写真一覧として閲覧できます。
 
 SP写真（2026年11月）：`sp-red-box.jpg` の左がとちおとめ、`sp-tochiaika.jpg` はとちあいか、`sp-skyberry.jpg` はスカイベリー。包装ラベルで確認し、スカイベリーはページ上で向きを調整しています。`sp-milky.jpg` はミルキーベリー。`sp-mix.jpg` と `sp-mix-box.jpg` は紅白ミックスのイメージです。品種紹介の写真は、先に提供されたレギュラーパックの実写を使用しています。
+
+SP写真の更新：代表写真は赤いいちごのみの `sp-red-box.jpg`、紅白の箱詰め例は `sp-mix.jpg`（IMG_3317）を使用します。旧 `sp-mix-box.jpg` は掲載を終了しました。SP写真の明るさは各画像のCSS filterで調整しています。原本の果実・ラベルを変更せず、画面上で補正し、ギャラリーにも同じ補正を引き継ぎます。
