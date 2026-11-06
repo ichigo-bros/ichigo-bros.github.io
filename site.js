@@ -1,9 +1,17 @@
 'use strict';
 (function () {
   const config = window.FARM_CONFIG;
-  if (!config || !Array.isArray(config.products)) return; // 設定が読めない場合は注文を無効のままにする
+  if (!config || !Array.isArray(config.products) || !window.FARM_SHIPPING) return; // 設定が読めない場合は注文を無効のままにする
   const $ = id => document.getElementById(id);
   const form = $('order-form');
+  const shipping = window.FARM_SHIPPING;
+  shipping.regions.forEach(region=>{
+    const group=document.createElement('optgroup');group.label=region[0];
+    region[1].forEach(pref=>group.append(new Option(pref,pref)));$('of-prefecture').append(group);
+  });
+  function recipientAddress(){const address=value('of-raddr'),pref=value('of-prefecture');return address.startsWith(pref)?address:pref+address;}
+  function delivery(){const counts={regular:0,dx:0,sp:0};for(const e of entries){const q=quantity(e);if(q===null)return null;counts[e.product.group]+=q;}return shipping.calculate(counts,value('of-prefecture'));}
+  function parcelText(parcel,index){return (index+1)+'個口目：'+parcel.contents.map(x=>shipping.labels[x.type]+'×'+x.count).join('＋')+'／'+parcel.size+'サイズ／'+yen(parcel.fee);}
   const names = { regular: 'レギュラーパック', sp: 'SPパック', dx: 'DXパック（2パック詰め）' };
   const headings = { regular: 'レギュラーパック（10〜15粒・270g以上）', sp: 'SPパック（大粒1段並べ・300g以上）', dx: 'DXパック（2パック詰め・各12〜15粒）' };
   const timeLabels = { '': '指定なし', '0812': '午前中', '1416': '14〜16時', '1618': '16〜18時', '1820': '18〜20時', '1921': '19〜21時' };
@@ -11,7 +19,7 @@
   const yen = n => n.toLocaleString('ja-JP') + '円';
   const value = id => $(id).value.trim();
   const same = () => $('of-same').checked;
-  const sender = f => value((same() ? 'of-r' : 'of-s') + f);
+  const sender = f => same() && f==='addr' ? recipientAddress() : value((same() ? 'of-r' : 'of-s') + f);
   const sale = ['selling', 'preorder'].includes(config.salesStatus) ? config.salesStatus : 'paused';
   const enabled = () => sale !== 'paused';
   const stateText = {
@@ -81,6 +89,13 @@
   function clearPreview() { $('message-preview').hidden = true; $('order-message').value = ''; $('copy-status').textContent = ''; }
   function refresh() {
     const result = totals(); $('of-total').textContent = result.invalid ? '数量を確認してください' : yen(result.total);
+    const shipment=delivery();$('shipping-details').replaceChildren();
+    if(result.invalid || !result.count || !shipment){
+      $('shipping-total').textContent=result.invalid?'数量を確認してください':'都道府県と商品数量を選択してください';$('grand-total').textContent='—';
+    }else{
+      $('shipping-total').textContent=yen(shipment.total);$('grand-total').textContent=yen(result.total+shipment.total);
+      shipment.parcels.forEach((parcel,index)=>{const li=document.createElement('li');li.textContent=parcelText(parcel,index);$('shipping-details').append(li);});
+    }
     $('gift-cod-note').hidden = same() || value('of-pay') !== 'cod';
     clearPreview(); $('order-errors').textContent = '';
   }
@@ -105,6 +120,9 @@
         if (!(f === 'tel' ? /^0\d{9,10}$/ : /^\d{7}$/).test(el.value)) el.setCustomValidity(f === 'tel' ? '電話番号を0から始まる10〜11桁で入力してください。' : '郵便番号を7桁で入力してください。');
       });
     });
+    const addressPref=shipping.regions.flatMap(r=>r[1]).find(pref=>value('of-raddr').startsWith(pref));
+    if(addressPref && addressPref!==value('of-prefecture'))$('of-raddr').setCustomValidity('選択した都道府県と住所の都道府県が一致していません。');
+    if(!delivery())$('of-prefecture').setCustomValidity('お届け先の都道府県を選択してください。');
     if (value('of-date') && value('of-date') < today()) $('of-date').setCustomValidity('過去の日付は選べません。');
     if (!form.checkValidity()) {
       $('order-errors').textContent = '入力内容を確認してください。数量は0〜30の整数、お届け先とご依頼主の各項目は必須です。';
@@ -118,14 +136,16 @@
     const dateLabel = date ? date.split('-').map((s, i) => i ? Number(s) : s).join('/') : '指定なし';
     const lines = ['いちご兄弟農園 ' + (sale === 'preorder' ? 'ご予約希望' : 'ご注文希望'), '', '【ご注文内容】'];
     entries.forEach(e => { const q = quantity(e); if (q > 0) lines.push('・' + e.name + ' × ' + q + (e.product.group === 'dx' ? 'セット' : 'パック')); });
-    lines.push('商品合計：' + yen(result.total) + '（税込・送料別）', '', '【お届け先】', 'お名前：' + value('of-rname'), 'お電話番号：' + value('of-rtel'), '郵便番号：' + value('of-rzip'), 'ご住所：' + value('of-raddr'), '', '【ご依頼主（送り主）】');
+    lines.push('商品合計：' + yen(result.total) + '（税込・送料別）', '', '【お届け先】', 'お名前：' + value('of-rname'), 'お電話番号：' + value('of-rtel'), '郵便番号：' + value('of-rzip'), 'ご住所：' + recipientAddress(), '', '【ご依頼主（送り主）】');
     if (same()) lines.push('お届け先と同じ');
     else lines.push('お名前：' + sender('name'), 'お電話番号：' + sender('tel'), '郵便番号：' + sender('zip'), 'ご住所：' + sender('addr'));
     lines.push('', '【配送のご希望】', 'お届け日：' + dateLabel, '時間帯：' + timeLabels[value('of-time')], 'お支払い方法：' + payLabels[value('of-pay')]);
     if (!same() && value('of-pay') === 'cod') lines.push('※代金引換のため、お届け先の受取人がお支払いします。');
     if (sale === 'preorder') lines.push('発送時期：' + config.reservationShipping);
     if (value('of-memo')) lines.push('品種のご希望・備考：' + value('of-memo'));
-    const csv = [date.replace(/-/g, '/'), value('of-time'), value('of-rtel'), value('of-rzip'), value('of-raddr'), value('of-rname'), sender('tel'), sender('zip'), sender('addr'), sender('name'), 'いちご ' + result.packs + 'パック'].map(s => '"' + s.replace(/"/g, '""') + '"').join(',');
+    const shipment=delivery();
+    lines.push('', '【送料・合計】','送料：'+yen(shipment.total)+'（クール便・箱代・税込）',...shipment.parcels.map(parcelText),'商品代金＋送料：'+yen(result.total+shipment.total),'※代引き手数料・振込手数料は別途。');
+    const csv = [date.replace(/-/g, '/'), value('of-time'), value('of-rtel'), value('of-rzip'), recipientAddress(), value('of-rname'), sender('tel'), sender('zip'), sender('addr'), sender('name'), 'いちご ' + result.packs + 'パック'].map(s => '"' + s.replace(/"/g, '""') + '"').join(',');
     lines.push('', '▼店舗用・ヤマトB2取込データ（お届け日,時間帯ｺｰﾄﾞ,届け先TEL,〒,住所,氏名,依頼主TEL,〒,住所,氏名,品名）', csv);
     return lines.join('\n');
   }
