@@ -19,21 +19,25 @@
   const yen = n => n.toLocaleString('ja-JP') + '円';
   const value = id => $(id).value.trim();
   const same = () => $('of-same').checked;
-  const sender = f => same() && f==='addr' ? recipientAddress() : value((same() ? 'of-r' : 'of-s') + f);
+  const sender = f => same() ? config.farmSender[f] : value('of-s' + f);
   const sale = ['selling', 'preorder'].includes(config.salesStatus) ? config.salesStatus : 'paused';
-  const pricesReady = config.products.every(p => Number.isFinite(p.price) && p.price >= 0);
-  const priceText = p => Number.isFinite(p.price) && p.price >= 0 ? yen(p.price) : '準備中';
-  const enabled = () => sale !== 'paused' && pricesReady;
+  const isPriced = p => Number.isFinite(p.price) && p.price >= 0;
+  const allPriced = config.products.every(isPriced);
+  const anyPriced = config.products.some(isPriced); // 準備中の商品があっても、価格の決まった商品は注文できる
+  const priceText = p => isPriced(p) ? yen(p.price) : '準備中';
+  const enabled = () => sale !== 'paused' && anyPriced;
+  const shippingGuide = '日時指定も承ります（ご希望に添えない場合もあります）。ご指定がない場合は、準備ができ次第、最短で発送いたします。';
+  const comingSoon = allPriced ? '' : (config.comingSoon || '');
   const stateText = {
     paused: { notice: '🍓 現在、いちごの販売・ご注文受付は休止中です。次回は' + config.reopening, cta: '販売再開のご案内', mail: 'メール注文は休止中', copy: 'DM用コピーは休止中', shipping: '現在は販売・ご注文受付を休止しています。次回は' + config.reopening },
-    selling: { notice: '🍓 今シーズンのいちごを販売中です。直売・配送を承ります。', cta: 'ご注文はこちら', mail: 'メールで注文する', copy: '注文文をコピーする', shipping: 'ご入金確認後（または注文確定後）3営業日以内に発送いたします。' },
+    selling: { notice: '🍓 いちごの販売を開始しました。直売・配送を承ります。' + comingSoon, cta: 'ご注文はこちら', mail: 'メールで注文する', copy: '注文文をコピーする', shipping: shippingGuide },
     preorder: { notice: '🍓 いちごのご予約を受け付けています。' + config.reservationShipping, cta: 'ご予約はこちら', mail: 'メールで予約する', copy: '予約文をコピーする', shipping: config.reservationShipping }
   }[sale];
 
-  if (!pricesReady && sale !== 'paused') {
+  if (!anyPriced && sale !== 'paused') {
     Object.assign(stateText, { notice: '🍓 商品価格は準備中です。ご注文受付の再開までお待ちください。', cta: '商品価格は準備中', mail: '価格準備中', copy: '価格準備中', shipping: '商品価格は準備中のため、ご注文受付・発送を休止しています。' });
   }
-  document.querySelector('[data-price-notice]').textContent = pricesReady ? '表示価格はすべて税込です。ご希望があれば紅白で詰めることもできます。' : '全商品の価格は準備中です。価格が決まり次第お知らせします。送料は注文フォームでご確認いただけます。';
+  document.querySelector('[data-price-notice]').textContent = !anyPriced ? '全商品の価格は準備中です。価格が決まり次第お知らせします。送料は注文フォームでご確認いただけます。' : allPriced ? '表示価格はすべて税込です。ご希望があれば紅白で詰めることもできます。' : '表示価格はすべて税込です。「準備中」の商品は、準備ができ次第販売します。';
 
   // 商品表とフォームの両方を同じ価格設定から作る
   document.querySelectorAll('[data-price-group]').forEach(table => {
@@ -41,7 +45,7 @@
     config.products.filter(p => p.group === table.dataset.priceGroup).forEach(p => {
       const tr = document.createElement('tr');
       const label = document.createElement('td'); label.textContent = p.label;
-      const price = document.createElement('td'); price.className = 'yen'; price.textContent = (p.variants.length > 1 && Number.isFinite(p.price) ? '各 ' : '') + priceText(p);
+      const price = document.createElement('td'); price.className = 'yen'; price.textContent = (p.variants.length > 1 && isPriced(p) ? '各 ' : '') + priceText(p);
       tr.append(label, price); body.append(tr);
     });
     table.replaceChildren(body);
@@ -58,6 +62,7 @@
       const input = document.createElement('input');
       input.id = id; input.type = 'number'; input.min = '0'; input.max = '30'; input.step = '1'; input.value = '0'; input.inputMode = 'numeric';
       input.setAttribute('aria-label', names[group] + '・' + variant + 'の数量（' + (group === 'dx' ? 'セット' : 'パック') + '）');
+      if (!isPriced(p)) { input.disabled = true; row.style.opacity = '.55'; } // 準備中の商品は数量を入力できない
       row.append(label, price, input); fieldset.append(row);
       let choice;
       if (p.choices) {
@@ -65,6 +70,7 @@
         choice.setAttribute('aria-label', variant + 'の品種の組み合わせ');
         p.choices.forEach(text => choice.append(new Option(text, text)));
         choice.style.cssText = 'width:100%;min-height:44px;margin:0 0 14px;font:inherit;font-size:13px';
+        if (!isPriced(p)) { choice.disabled = true; choice.style.opacity = '.55'; }
         fieldset.append(choice);
       }
       entries.push({ input, product: p, get name() { return names[group] + '／' + variant + (choice ? '（' + choice.value + '）' : ''); } });
@@ -76,9 +82,7 @@
   $('sales-notice').textContent = stateText.notice.replace('🍓 ', '');
   document.querySelectorAll('[data-order-cta]').forEach(el => { el.textContent = stateText.cta; });
   document.querySelectorAll('[data-shipping-guide]').forEach(el => { el.textContent = stateText.shipping; });
-  $('legal-shipping').textContent = sale === 'selling' && pricesReady
-    ? '前払いの場合、指定日が無ければ入金確認後3営業日以内に発送します。代金引換の場合、指定日が無ければご注文確認後3営業日以内に発送します。'
-    : stateText.shipping;
+  $('legal-shipping').textContent = sale === 'selling' && anyPriced ? shippingGuide : stateText.shipping;
   $('flow-title').textContent = sale === 'preorder' ? 'ご予約からお届けまで（配送）' : sale === 'paused' ? '販売再開・ご注文のご案内' : 'ご購入までの流れ（配送）';
   $('order-title').textContent = sale === 'preorder' ? '📝 かんたん予約フォーム' : '📝 かんたん注文フォーム';
   $('order-lead').textContent = enabled() ? '品種ごとに数量とお届け先を入力してください。メールまたはInstagram DMを送信した時点で、農園に内容が届きます。' : stateText.shipping + ' 現在はメール用の注文文作成・DM用コピーをご利用いただけません。';
@@ -87,7 +91,7 @@
   $('of-mail').disabled = $('of-copy').disabled = !enabled();
   $('send-help').textContent = enabled()
     ? '入力だけでは注文は送信されません。作成した内容を確認して、メールまたはInstagram DMで送信してください。'
-    : (!pricesReady ? '商品価格は準備中です。メール・コピーのボタンはご利用いただけません。' : '現在は受付休止中のため、メール・コピーのボタンはご利用いただけません。') + (sale === 'paused' ? '次回は' + config.reopening : '');
+    : (!anyPriced ? '商品価格は準備中です。メール・コピーのボタンはご利用いただけません。' : '現在は受付休止中のため、メール・コピーのボタンはご利用いただけません。') + (sale === 'paused' ? '次回は' + config.reopening : '');
 
   function today() { return new Intl.DateTimeFormat('sv-SE', { timeZone: 'Asia/Tokyo', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date()); }
   $('of-date').min = today();
@@ -98,17 +102,17 @@
   }
   function totals() {
     let total = 0, packs = 0, count = 0, invalid = false;
-    entries.forEach(e => { const q = quantity(e); if (q === null) { invalid = true; return; } if (pricesReady) total += q * e.product.price; packs += q * e.product.packs; count += q; });
-    return { total: pricesReady ? total : null, packs, count, invalid };
+    entries.forEach(e => { const q = quantity(e); if (q === null) { invalid = true; return; } if (isPriced(e.product)) total += q * e.product.price; packs += q * e.product.packs; count += q; });
+    return { total: anyPriced ? total : null, packs, count, invalid };
   }
   function clearPreview() { $('message-preview').hidden = true; $('order-message').value = ''; $('copy-status').textContent = ''; }
   function refresh() {
-    const result = totals(); $('of-total').textContent = result.invalid ? '数量を確認してください' : pricesReady ? yen(result.total) : '準備中';
+    const result = totals(); $('of-total').textContent = result.invalid ? '数量を確認してください' : anyPriced ? yen(result.total) : '準備中';
     const shipment=delivery();$('shipping-details').replaceChildren();
     if(result.invalid || !result.count || !shipment){
-      $('shipping-total').textContent=result.invalid?'数量を確認してください':'都道府県と商品数量を選択してください';$('grand-total').textContent=result.invalid || pricesReady ? '—' : '準備中';
+      $('shipping-total').textContent=result.invalid?'数量を確認してください':'都道府県と商品数量を選択してください';$('grand-total').textContent=result.invalid || anyPriced ? '—' : '準備中';
     }else{
-      $('shipping-total').textContent=yen(shipment.total);$('grand-total').textContent=pricesReady ? yen(result.total+shipment.total) : '準備中';
+      $('shipping-total').textContent=yen(shipment.total);$('grand-total').textContent=anyPriced ? yen(result.total+shipment.total) : '準備中';
       shipment.parcels.forEach((parcel,index)=>{const li=document.createElement('li');li.textContent=parcelText(parcel,index);$('shipping-details').append(li);});
     }
     $('gift-cod-note').hidden = same() || value('of-pay') !== 'cod';
@@ -152,12 +156,12 @@
     const lines = ['いちご兄弟農園 ' + (sale === 'preorder' ? 'ご予約希望' : 'ご注文希望'), '', '【ご注文内容】'];
     entries.forEach(e => { const q = quantity(e); if (q > 0) lines.push('・' + e.name + ' × ' + q + (e.product.group === 'dx' ? 'セット' : 'パック')); });
     lines.push('商品合計：' + yen(result.total) + '（税込・送料別）', '', '【お届け先】', 'お名前：' + value('of-rname'), 'お電話番号：' + value('of-rtel'), '郵便番号：' + value('of-rzip'), 'ご住所：' + recipientAddress(), '', '【ご依頼主（送り主）】');
-    if (same()) lines.push('お届け先と同じ');
+    if (same()) lines.push('ご自宅用のため、農園（' + config.farmSender.name + '）から発送します');
     else lines.push('お名前：' + sender('name'), 'お電話番号：' + sender('tel'), '郵便番号：' + sender('zip'), 'ご住所：' + sender('addr'));
     lines.push('', '【配送のご希望】', 'お届け日：' + dateLabel, '時間帯：' + timeLabels[value('of-time')], 'お支払い方法：' + payLabels[value('of-pay')]);
     if (!same() && value('of-pay') === 'cod') lines.push('※代金引換のため、お届け先の受取人がお支払いします。');
     if (sale === 'preorder') lines.push('発送時期：' + config.reservationShipping);
-    if (value('of-memo')) lines.push('品種のご希望・備考：' + value('of-memo'));
+    if (value('of-memo')) lines.push('備考：' + value('of-memo'));
     const shipment=delivery();
     lines.push('', '【送料・合計】','送料：'+yen(shipment.total)+'（クール便・箱代・税込）',...shipment.parcels.map(parcelText),'商品代金＋送料：'+yen(result.total+shipment.total),'※代引き手数料・振込手数料は別途。');
     const csv = [date.replace(/-/g, '/'), value('of-time'), value('of-rtel'), value('of-rzip'), recipientAddress(), value('of-rname'), sender('tel'), sender('zip'), sender('addr'), sender('name'), 'いちご ' + result.packs + 'パック'].map(s => '"' + s.replace(/"/g, '""') + '"').join(',');
@@ -168,12 +172,46 @@
   form.addEventListener('submit', e => e.preventDefault());
   form.addEventListener('input', e => { if (e.target.setCustomValidity) e.target.setCustomValidity(''); refresh(); });
   form.addEventListener('change', refresh);
+  // 郵便番号から住所を自動入力する（日本郵便の公式データを上3桁ごとに分けたファイルを、必要な分だけ読み込む）
+  const zipCache = {};
+  function loadZipShard(prefix) {
+    if (!zipCache[prefix]) zipCache[prefix] = fetch('zipdata/' + prefix + '.json').then(r => { if (!r.ok) throw new Error('zip'); return r.json(); });
+    return zipCache[prefix];
+  }
+  function setupZipLookup(zipId, addrId, withPrefecture) {
+    const zip = $(zipId), addr = $(addrId);
+    const note = document.createElement('small'); note.setAttribute('role', 'status'); note.style.cssText = 'display:block;margin:4px 0 0;font-size:12.5px;color:var(--ink-light)';
+    zip.parentElement.append(note);
+    let lastAuto = '';
+    zip.addEventListener('input', async () => {
+      const z = normalizeContact(zip.value);
+      note.textContent = '';
+      if (!/^\d{7}$/.test(z)) return;
+      try {
+        const hit = (await loadZipShard(z.slice(0, 3)))[z.slice(3)];
+        if (normalizeContact(zip.value) !== z) return; // 入力が変わっていたら反映しない
+        if (!hit) { note.textContent = '該当する住所が見つかりませんでした。お手数ですが手入力してください。'; return; }
+        const [pref, city, town] = hit;
+        if (withPrefecture) {
+          const sel = $('of-prefecture');
+          if ([...sel.options].some(o => o.value === pref) && sel.value !== pref) { sel.value = pref; sel.dispatchEvent(new Event('change', { bubbles: true })); }
+        }
+        const auto = (withPrefecture ? '' : pref) + city + town;
+        if (!addr.value.trim() || addr.value === lastAuto) { addr.value = auto; lastAuto = auto; addr.dispatchEvent(new Event('input', { bubbles: true })); }
+        note.textContent = '住所を自動入力しました。番地・建物名を続けて入力してください。';
+      } catch (e) {
+        note.textContent = '住所の自動入力をご利用いただけませんでした。お手数ですが手入力してください。';
+      }
+    });
+  }
+  setupZipLookup('of-rzip', 'of-raddr', true);
+  setupZipLookup('of-szip', 'of-saddr', false);
   $('of-same').addEventListener('change', syncSender);
   $('of-mail').addEventListener('click', () => {
     clearPreview(); if (!validate()) return;
     const msg = build(); preview(msg);
     $('copy-status').textContent = 'メールアプリが開かない場合は、下の文章を手動でコピーしてメールに貼り付けてください。';
-    window.location.href = 'mailto:ichigo.brothers@gmail.com?subject=' + encodeURIComponent('いちごの' + (sale === 'preorder' ? 'ご予約' : 'ご注文') + '（' + sender('name') + '）') + '&body=' + encodeURIComponent(msg);
+    window.location.href = 'mailto:ichigo.brothers@gmail.com?subject=' + encodeURIComponent('いちごの' + (sale === 'preorder' ? 'ご予約' : 'ご注文') + '（' + (same() ? value('of-rname') : sender('name')) + '）') + '&body=' + encodeURIComponent(msg);
   });
   $('of-copy').addEventListener('click', async () => {
     clearPreview(); if (!validate()) return;
