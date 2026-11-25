@@ -18,10 +18,10 @@ window.FARM_CONFIG = {
     { id: 'sp-sky', group: 'sp', label: 'スカイベリー', price: null, packs: 1, variants: ['スカイベリー'] },
     { id: 'sp-white', group: 'sp', label: 'ミルキーベリー', price: null, packs: 1, variants: ['ミルキーベリー'] },
     { id: 'sp-mix', group: 'sp', label: 'お好みの品種＋ミルキー', price: null, packs: 1, variants: ['とちおとめ＋ミルキー', 'とちあいか＋ミルキー', 'スカイベリー＋ミルキー'] },
-    { id: 'dx-red', group: 'dx', label: 'とちおとめ／とちあいか／スカイベリー', price: null, packs: 2, variants: ['とちおとめ', 'とちあいか', 'スカイベリー'] },
-    { id: 'dx-mix', group: 'dx', label: 'DXミックス（とちおとめ・とちあいか・スカイベリー）', price: null, packs: 2, variants: ['DXミックス（とちおとめ・とちあいか・スカイベリー）'] },
-    { id: 'dx-milky-mix', group: 'dx', label: '赤い2種類＋ミルキーベリー1列', price: null, packs: 2, variants: ['ミックス＋ミルキー'], choices: ['とちおとめ＋とちあいか＋ミルキーベリー1列', 'とちおとめ＋スカイベリー＋ミルキーベリー1列', 'とちあいか＋スカイベリー＋ミルキーベリー1列'] },
-    { id: 'dx-white', group: 'dx', label: 'ミルキーベリー', price: null, packs: 2, variants: ['ミルキーベリー'] },
+    { id: 'dx-red', group: 'dx', label: 'とちおとめ／とちあいか／スカイベリー', price: null, packs: 1, variants: ['とちおとめ', 'とちあいか', 'スカイベリー'] },
+    { id: 'dx-mix', group: 'dx', label: 'DXミックス（とちおとめ・とちあいか・スカイベリー）', price: null, packs: 1, variants: ['DXミックス（とちおとめ・とちあいか・スカイベリー）'] },
+    { id: 'dx-milky-mix', group: 'dx', label: '赤い2種類＋ミルキーベリー1列', price: null, packs: 1, variants: ['ミックス＋ミルキー'], choices: ['とちおとめ＋とちあいか＋ミルキーベリー1列', 'とちおとめ＋スカイベリー＋ミルキーベリー1列', 'とちあいか＋スカイベリー＋ミルキーベリー1列'] },
+    { id: 'dx-white', group: 'dx', label: 'ミルキーベリー', price: null, packs: 1, variants: ['ミルキーベリー'] },
     { id: 'otoku-small', group: 'otoku', label: 'お徳用パック（小）', price: 300, packs: 1, variants: [] },
     { id: 'otoku-large', group: 'otoku', label: 'お徳用パック（大）', price: 1000, packs: 1, variants: [] }
   ]

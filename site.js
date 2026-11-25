@@ -12,8 +12,8 @@
   function recipientAddress(){const address=value('of-raddr'),pref=value('of-prefecture');return address.startsWith(pref)?address:pref+address;}
   function delivery(){const counts={regular:0,dx:0,sp:0};for(const e of entries){const q=quantity(e);if(q===null)return null;counts[e.product.group]+=q;}return shipping.calculate(counts,value('of-prefecture'));}
   function parcelText(parcel,index){return (index+1)+'個口目：'+parcel.contents.map(x=>shipping.labels[x.type]+'×'+x.count).join('＋')+'／'+parcel.size+'サイズ／'+yen(parcel.fee);}
-  const names = { regular: 'レギュラーパック', sp: 'SPパック', dx: 'DXパック（2パック詰め）' };
-  const headings = { regular: 'レギュラーパック（10〜15粒・270g以上）', sp: 'SPパック（大粒1段並べ・300g以上）', dx: 'DXパック（2パック詰め・各12〜15粒）' };
+  const names = { regular: 'レギュラーパック', sp: 'SPパック', dx: 'DXパック' };
+  const headings = { regular: 'レギュラーパック（10〜15粒・270g以上）', sp: 'SPパック（大粒1段並べ・300g以上）', dx: 'DXパック（12〜15粒）' };
   const timeLabels = { '': '指定なし', '0812': '午前中', '1416': '14〜16時', '1618': '16〜18時', '1820': '18〜20時', '1921': '19〜21時' };
   const payLabels = { bank: '銀行振込（楽天銀行）', cod: '代金引換（現金・クレジットカード・電子マネー）' };
   const yen = n => n.toLocaleString('ja-JP') + '円';
@@ -61,7 +61,7 @@
       const price = document.createElement('span'); price.className = 'of-price'; price.textContent = priceText(p);
       const input = document.createElement('input');
       input.id = id; input.type = 'number'; input.min = '0'; input.max = '30'; input.step = '1'; input.value = '0'; input.inputMode = 'numeric';
-      input.setAttribute('aria-label', names[group] + '・' + variant + 'の数量（' + (group === 'dx' ? 'セット' : 'パック') + '）');
+      input.setAttribute('aria-label', names[group] + '・' + variant + 'の数量（パック）');
       if (!isPriced(p)) { input.disabled = true; row.style.opacity = '.55'; } // 準備中の商品は数量を入力できない
       row.append(label, price, input); fieldset.append(row);
       let choice;
@@ -154,7 +154,7 @@
     const date = value('of-date');
     const dateLabel = date ? date.split('-').map((s, i) => i ? Number(s) : s).join('/') : '指定なし';
     const lines = ['いちご兄弟農園 ' + (sale === 'preorder' ? 'ご予約希望' : 'ご注文希望'), '', '【ご注文内容】'];
-    entries.forEach(e => { const q = quantity(e); if (q > 0) lines.push('・' + e.name + ' × ' + q + (e.product.group === 'dx' ? 'セット' : 'パック')); });
+    entries.forEach(e => { const q = quantity(e); if (q > 0) lines.push('・' + e.name + ' × ' + q + 'パック'); });
     lines.push('商品合計：' + yen(result.total) + '（税込・送料別）', '', '【お届け先】', 'お名前：' + value('of-rname'), 'お電話番号：' + value('of-rtel'), '郵便番号：' + value('of-rzip'), 'ご住所：' + recipientAddress(), '', '【ご依頼主（送り主）】');
     if (same()) lines.push('ご自宅用のため、農園（' + config.farmSender.name + '）から発送します');
     else lines.push('お名前：' + sender('name'), 'お電話番号：' + sender('tel'), '郵便番号：' + sender('zip'), 'ご住所：' + sender('addr'));

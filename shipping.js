@@ -16,8 +16,11 @@
     for(const key of ['regular','dx','sp'])if(!Number.isSafeInteger(counts[key]) || counts[key]<0 || counts[key]>10000)throw new Error('数量が不正です');
     const region=regions.find(r=>r[1].includes(prefecture));
     if(!region)return null;
-    const boxes={four:counts.dx+(counts.regular>2?Math.ceil(counts.regular/4):0),two:counts.regular>0&&counts.regular<=2?1:0,flat:Math.ceil(counts.sp/2)};
-    // 大きい箱から順にまとめ、6箱ごとに分ける。DXとレギュラーは別箱。
+    // レギュラーとDXは同じ箱に詰める。DX1パック＝レギュラー2パック分の場所（2P箱にDX1パックがちょうど収まる）。
+    // 場所が2以下なら2P箱1箱（レギュラー1〜2パック、またはDX1パック。空きには緩衝材を詰める）、3以上は4P箱に4つずつ（端数切り上げ）。
+    const slots=counts.regular+counts.dx*2;
+    const boxes={four:slots>2?Math.ceil(slots/4):0,two:slots>0&&slots<=2?1:0,flat:Math.ceil(counts.sp/2)};
+    // 大きい箱から順にまとめ、6箱ごとに分ける。
     const units=Object.keys(boxes).flatMap(type=>Array(boxes[type]).fill(type));
     const parcels=[];
     for(let i=0;i<units.length;i+=6){
